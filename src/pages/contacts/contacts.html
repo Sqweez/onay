@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle right>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Контакты</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list style="margin: 0; height: 100%">
+    <ion-item class="itemContactsPage" *ngFor="let contact of contacts | async" (click)="showSheet(contact)">
+      <div class="imageContact">
+        <img [src]="showImage(contact.logo)" alt="">
+      </div>
+      <div class="infoContactsText">
+        <h5 style="margin-top: 3% ">{{contact.Title }}</h5>
+        <p>{{contact.email}}</p>
+        <p>{{contact.phone}}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

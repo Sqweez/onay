@@ -1,0 +1,38 @@
+<ion-content class="registerPage profilePage" no-bounce>
+  <div class="logo">Onay Invest</div>
+  <div class="prPageInfo">Представьтесь, пожалуйста</div>
+  <div class="regForm">
+    <ion-list>
+      <ion-item class="inputReg">
+        <ion-label><i class="fas fa-user"></i></ion-label>
+        <ion-input placeholder="Имя" type="text" [(ngModel)]="profile.firstname"></ion-input>
+      </ion-item>
+      <ion-item class="inputReg">
+        <ion-label><i class="fas fa-user"></i></ion-label>
+        <ion-input placeholder="Фамилия" type="text" [(ngModel)]="profile.lastname"></ion-input>
+      </ion-item>
+      <ion-item class="inputReg">
+        <ion-label><i class="fas fa-phone"></i></ion-label>
+        <ion-input placeholder="Телефон" type="text" [(ngModel)]="profile.phone"></ion-input>
+      </ion-item>
+      <ion-item class="inputReg">
+        <ion-label><i class="far fa-calendar-alt"></i></ion-label>
+        <ion-datetime placeholder="Введите дату рождения" displayFormat="DD.MM.YYYY" [(ngModel)]="profile.birthDate" >
+        </ion-datetime>
+       </ion-item>
+      <ion-item class="inputReg">
+        <ion-label><i class="fas fa-globe"></i></ion-label>
+        <ion-select placeholder="Город" type="text" [(ngModel)]="profile.region">
+          <ion-option *ngFor="let city of kzCities" value="{{city.city}}">{{city.city}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button ion-button block color="primary" (click)="createProfile()">Сохранить профиль</button>
+    </div>
+    <button color="light" ion-button block clear (click)="logout()">
+      Выйти из профиля&nbsp;&nbsp;
+      <ion-icon name="exit"></ion-icon>
+    </button>
+  </div>
+</ion-content>

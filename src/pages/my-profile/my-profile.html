@@ -1,0 +1,32 @@
+<!--
+  Generated template for the MyProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button  ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Мой профиль</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content>
+  <div class="avatarInProfile" *ngIf="!(profileInfo | async)?.avatar" (click)="changeAvatar()">
+    <img src="assets/imgs/avatar.jpg" alt="" class="avatar">
+  </div>
+  <div class="avatarInProfile" *ngIf="(profileInfo | async)?.avatar" (click)="changeAvatar()">
+    <img [src]="(profileInfo | async)?.avatar" alt="" class="avatar">
+  </div>
+  <div class="avatarInProfile" *ngIf="(profileInfo | async)?.avatar">
+    <img src="assets/imgs/avatar.jpg" alt="" class="avatar">
+  </div>
+  <h2 style="text-align: center">{{(profileInfo | async)?.firstname}} {{(profileInfo | async)?.lastname}}</h2>
+  <h2 style="text-align: center">Город: {{(profileInfo | async)?.region}}</h2>
+  <h2 style="text-align: center">{{(profileInfo | async)?.birthDate}}</h2>
+  <h2 style="text-align: center">{{(profileInfo | async)?.phone}}</h2>
+  <h2 style="text-align: center">{{(profileInfo | async)?.email}}</h2>
+</ion-content>

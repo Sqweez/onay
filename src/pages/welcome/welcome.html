@@ -1,0 +1,25 @@
+<ion-content class="helloScreen">
+    <div class="logo">Onay Invest</div>
+    <div class="regForm">
+      <ion-list>
+        <ion-item class="inputReg">
+          <ion-label><i class="fas fa-envelope"></i></ion-label>
+          <ion-input placeholder="E-mail" type="text" [(ngModel)]="user.email"></ion-input>
+        </ion-item>
+        <ion-item class="inputReg">
+          <ion-label><i class="fas fa-unlock"></i></ion-label>
+          <ion-input placeholder="Пароль" type="password" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+      <span>
+         <button class="rounded" ion-button block color='secondary' (click)="login(user)">Войти</button>
+         <button class="rounded" ion-button block color='dark'(click)="goToRegister()">Регистрация</button>
+         <!--<button class="rounded" ion-button icon-right color='primary' (click)="signUpThroughFacebook()">Войти через
+          <ion-icon class="button-icon" name="logo-facebook"></ion-icon>
+         </button>
+         <button class="rounded" ion-button icon-right color='danger' (click)="signUpThroughGoogle()">Войти через
+          <ion-icon class="button-icon" name="logo-google"></ion-icon>
+         </button>-->
+      </span>
+</ion-content>

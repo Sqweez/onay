@@ -1,0 +1,18 @@
+<!--
+  Generated template for the NewInfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{(titleInfo | async)?.title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <img [src]="showImage((titleInfo | async)?.image)" alt="">
+  <h1>{{(titleInfo | async)?.title}}</h1>
+  <p>{{(titleInfo | async)?.text}}</p>
+</ion-content>

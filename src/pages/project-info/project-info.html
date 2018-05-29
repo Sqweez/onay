@@ -1,0 +1,42 @@
+
+<script src="../../app/app.module.ts"></script>
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{project.name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <h1 style="text-align: center">Проект: "{{project.name}}"</h1>
+    <iframe width="100%" [src]="url" (load)="videoLoaded()" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <p>Описание проекта "{{project.name}}":</p><p style="opacity: 0.6">{{project.description}}</p>
+    <p>Стадия проекта: </p><p style="opacity: 0.6">{{project.stage}}</p>
+    <div *ngIf="project.freelance">
+      <p >Требуемые услуги: </p><p style="opacity: 0.6">{{project.freelance}}</p>
+    </div>
+    <div *ngIf="project.money">
+      <p >Сумма инвестиций: </p><p style="opacity: 0.6">{{project.money}}</p>
+    </div>
+  </div>
+  <div style="height: 24%">
+    <ion-chip>
+      <ion-icon ios="ios-person" md="md-person"></ion-icon>
+      <ion-label>Автор проекта: {{(profile | async)?.firstname}} {{(profile | async)?.lastname}}</ion-label>
+    </ion-chip>
+    <ion-chip>
+      <ion-icon ios="ios-home" md="md-home"></ion-icon>
+      <ion-label>Город: {{(profile | async)?.region}}</ion-label>
+    </ion-chip>
+    <div style="text-align: center">
+      <button color="secondary" ion-button icon-only (click)="phoneTo(phone)">
+        <ion-icon ios="ios-call" md="md-call"></ion-icon>
+      </button>
+      <button color="danger" ion-button icon-only (click)="mailTo(phone, email)">
+        <ion-icon ios="ios-mail" md="md-mail"></ion-icon>
+      </button>
+    </div>
+  </div>
+</ion-content>
