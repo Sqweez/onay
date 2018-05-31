@@ -8,8 +8,8 @@ import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
 import {LicensePage} from "../license/license";
 import {WelcomePage} from "../welcome/welcome";
+import {ToastService} from "../../providers/services/toast.service";
 
-@IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
@@ -46,7 +46,8 @@ export class ProfilePage {
     private afDatabase: AngularFireDatabase,
     public navCtrl: NavController,
     public navParams: NavParams,
-    private loadCtrl: LoadingController
+    private loadCtrl: LoadingController,
+    public toast: ToastService
   ) {
     this.menuCtrl.enable(false, 'mainMenu');
   }
@@ -60,6 +61,7 @@ export class ProfilePage {
     this.afAuth.authState.subscribe( auth => {
       this.profile.email = auth.email;
       this.profile.didLicenseAccepted = false;
+      this.profile.phone = this.profile.phone.replace("87","+77");
       this.afDatabase.object(`profile/${auth.uid}`).set(this.profile)
         .then(() => this.navCtrl.push(LicensePage));
     })

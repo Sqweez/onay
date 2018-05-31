@@ -7,14 +7,7 @@ import {EduInfoPage} from '../edu-info/edu-info';
 import {EducationInfoPage} from "../education-info/education-info";
 import {DomSanitizer} from "@angular/platform-browser";
 
-/**
- * Generated class for the EducationPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
-@IonicPage()
 @Component({
   selector: 'page-education',
   templateUrl: 'education.html',

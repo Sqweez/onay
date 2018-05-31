@@ -13,7 +13,6 @@ import {StatusBar} from "@ionic-native/status-bar";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
@@ -28,7 +27,13 @@ export class RegisterPage {
 
   async register(user: User){
     if(this.user.password == this.passwordConfirmation){
-      await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
+      /*let regExp = /@mail.ru|@gmail.com|@rambler.ru|@aifc.edu.gov|@mail.kz|@aol.com|@yandex.kz|@yandex.ru/;
+      let match = this.user.email.match(regExp);
+      console.log(match);
+      if(match == null){
+        this.showToast('E-mail не соответстует существующему!');
+      }*/
+     await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
       this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
       this.showToast('Вы успешно зарегистрированы!');
       this.navCtrl.setRoot(ProfilePage);

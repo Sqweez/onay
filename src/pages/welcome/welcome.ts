@@ -11,6 +11,7 @@ import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
 import {LicensePage} from "../license/license";
 import {SplashScreen} from "@ionic-native/splash-screen";
+import * as firebase from "firebase";
 
 /**
  * Generated class for the WelcomePage page.
@@ -19,7 +20,6 @@ import {SplashScreen} from "@ionic-native/splash-screen";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-welcome',
   templateUrl: 'welcome.html',
@@ -78,7 +78,6 @@ export class WelcomePage {
             this.user.password = "";
             break;
           case 'auth/wrong-password':
-            this.user.email = "";
             this.user.password = "";
             this.message = "Неверный пароль";
             break;
@@ -91,8 +90,13 @@ export class WelcomePage {
   goToLogin(){
     this.navCtrl.push(LoginPage);
   }
+  continueAsGuest(){
+    this.navCtrl.push(TabsPage);
+  }
   signUpThroughFacebook(){
-    this.showToast('Ой, мы еще не сделали авторизацию через Facebook:(');
+    this.afAuth.auth.signInWithPopup(
+      new firebase.auth.FacebookAuthProvider()
+    );
   }
   signUpThroughGoogle(){
     this.showToast('Ой, мы еще не сделали авторизацию через Google:(');

@@ -3,14 +3,6 @@ import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angula
 import {StoreProjectPage} from "../store-project/store-project";
 import {ProjectsPage} from "../projects/projects";
 
-/**
- * Generated class for the WorkPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-work',
   templateUrl: 'work.html',

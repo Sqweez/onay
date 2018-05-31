@@ -3,25 +3,21 @@ import {Nav, Platform, ToastController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { WelcomePage } from "../pages/welcome/welcome";
 import {Keyboard} from "@ionic-native/keyboard";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database-deprecated";
 import {Profile} from "../models/profile";
-import {WorkPage} from "../pages/work/work";
-import {CalendarPage} from "../pages/calendar/calendar";
-import {EducationPage} from "../pages/education/education";
-import {ContactsPage} from "../pages/contacts/contacts";
 import {TabsPage} from "../pages/tabs/tabs";
-import {MyProfilePage} from "../pages/my-profile/my-profile";
 import {LicensePage} from "../pages/license/license";
 import {Autentification} from "../providers/services/autentification";
-import {ProfilePage} from "../pages/profile/profile";
 import {HeaderColor} from "@ionic-native/header-color";
 import { timer } from "rxjs/observable/timer";
-
+import {AboutUsPage} from "../pages/about-us/about-us";
+import { Network } from '@ionic-native/network'
+import {MyProfilePage} from "../pages/my-profile/my-profile";
+import {HomePage} from "../pages/home/home";
+import {RegisterPage} from "../pages/register/register";
 @Component({
   templateUrl: 'app.html'
 })
@@ -34,6 +30,7 @@ export class MyApp {
   showSplash = true;
   rootPage: any;
   profileData: FirebaseObjectObservable<Profile>;
+  unregPages: Array<{title: string, component: any, icon: string}>;
   pages: Array<{title: string, component: any, icon: string}>;
   tabs: Array<{component: any, icon: string}>;
   constructor(
@@ -45,19 +42,21 @@ export class MyApp {
     public splashScreen: SplashScreen,
     private authProvider: Autentification,
     public headerColor: HeaderColor,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public ntwrk: Network) {
     this.initializeApp();
 
-      this.afAuth.authState.subscribe(data => {
-        console.log('Авторизован');
-        this.profileData = this.afDatabase.object(`profile/${data.uid}`);
-      });
+
 
     // used for an example of ngFor and navigation
+    this.unregPages = [
+      {title: 'Войти', component: WelcomePage, icon: 'md-home'},
+      {title: 'Зарегистироваться', component: RegisterPage, icon: 'md-cog'}
+    ];
     this.pages = [
-      { title: 'Настройки', component: 'settings', icon: 'md-cog' },
+    /*  { title: 'Настройки', component: 'settings', icon: 'md-cog' },*/
       { title: 'Лицензионное соглашение', component: LicensePage, icon: 'mail' },
-      { title: 'О нас', component: 'aboutus', icon: 'information-circle' },
+      { title: 'О нас', component: AboutUsPage, icon: 'information-circle' },
       { title: 'Выйти', component: null, icon: 'exit'}
     ];
 
@@ -69,6 +68,10 @@ export class MyApp {
           console.log('1');
           this.afDatabase.object('profile/' + data.uid).subscribe(data =>{
             if(data.didLicenseAccepted == true){
+              this.afAuth.authState.subscribe(data => {
+                console.log('Авторизован');
+                this.profileData = this.afDatabase.object(`profile/${data.uid}`);
+              });
               this.headerColor.tint('#3f71ae');
               this.rootPage = TabsPage;
               console.log('2');
@@ -93,7 +96,7 @@ export class MyApp {
     });
   }
   showProfile(){
-      this.afAuth.authState.subscribe(data => {
+     this.afAuth.authState.subscribe(data => {
         let id = data.uid;
         this.nav.push(MyProfilePage, {id})
       });
@@ -117,6 +120,7 @@ export class MyApp {
     else {
       this.nav.setRoot(WelcomePage);
       this.afAuth.auth.signOut();
+      this.profileData = null;
     }
   }
   showToast(message: String){

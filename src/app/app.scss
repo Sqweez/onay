@@ -4,6 +4,8 @@
   font-weight: normal;
   font-style: normal;
 }
+.toolbar-title {
+}
 .toolbar-background {
   background-color: color($colors, primary);
 }
@@ -25,28 +27,31 @@
 ion-datetime{
   float: left!important;
 }
+.sideMenuHeader{
+  margin-top: 10%;
+}
 .profileInfoBlock {
   position: absolute;
-  height: 30%;
+  height: 15%;
   width: 100%;
   background-color: color($colors, primary);
   color: white;
 }
+
 .textInSidebarProf {
   width: 80%;
   position: absolute;
-  margin-top: 50%;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-top: 5%;
   text-align: center;
   font-size: 130%;
+  font-weight: 100;
 }
 .avatar {
   position: absolute;
-  width: 40%;
-  margin-top: 5%;
-  margin-left: 30%;
+  width: 17%;
+  margin-left: 10%;
   border-radius: 100%;
+  float: left;
 }
 .splash{
   position: absolute;
@@ -110,4 +115,7 @@ ion-datetime{
        transform: scaleY(1.0);
        -webkit-transform: scaleY(1.0);
      }
+}
+ion-input {
+  font-weight: normal;
 }

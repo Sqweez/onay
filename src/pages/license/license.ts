@@ -13,7 +13,6 @@ import {Profile} from "../../models/profile";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-license',
   templateUrl: 'license.html',

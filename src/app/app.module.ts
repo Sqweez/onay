@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule, Toast} from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -38,6 +38,10 @@ import {CallNumber} from "@ionic-native/call-number";
 import {ProjectInfoPage} from "../pages/project-info/project-info";
 import {EducationInfoPage} from "../pages/education-info/education-info";
 import {HeaderColor} from "@ionic-native/header-color";
+import { AlertProvider } from '../providers/alert/alert';
+import { ToastProvider } from '../providers/toast/toast';
+import {Network} from "@ionic-native/network";
+import {AboutUsPage} from "../pages/about-us/about-us";
 
 @NgModule({
   declarations: [
@@ -48,7 +52,6 @@ import {HeaderColor} from "@ionic-native/header-color";
     RegisterPage,
     ProfilePage,
     WorkPage,
-    CalendarPage,
     EducationPage,
     ContactsPage,
     NewInfoPage,
@@ -59,7 +62,8 @@ import {HeaderColor} from "@ionic-native/header-color";
     LicensePage,
     ProjectInfoPage,
     EducationInfoPage,
-    WelcomePage
+    WelcomePage,
+    AboutUsPage
   ],
   imports: [
     BrowserModule,
@@ -78,7 +82,6 @@ import {HeaderColor} from "@ionic-native/header-color";
     RegisterPage,
     ProfilePage,
     WorkPage,
-    CalendarPage,
     EducationPage,
     ContactsPage,
     NewInfoPage,
@@ -89,7 +92,8 @@ import {HeaderColor} from "@ionic-native/header-color";
     LicensePage,
     ProjectInfoPage,
     EducationInfoPage,
-    WelcomePage
+    WelcomePage,
+    AboutUsPage
   ],
   providers: [
     StatusBar,
@@ -105,7 +109,10 @@ import {HeaderColor} from "@ionic-native/header-color";
     ToastService,
     EmailComposer,
     CallNumber,
-    HeaderColor
+    HeaderColor,
+    AlertProvider,
+    ToastProvider,
+    Network
   ]
 })
 export class AppModule {}

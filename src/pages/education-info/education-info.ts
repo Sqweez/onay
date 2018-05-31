@@ -10,7 +10,6 @@ import {DomSanitizer} from "@angular/platform-browser";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-education-info',
   templateUrl: 'education-info.html',

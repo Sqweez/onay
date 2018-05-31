@@ -1,8 +1,7 @@
-
 <ion-header>
 
   <ion-navbar>
-    <button ion-button menuToggle right>
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Проекты</ion-title>
@@ -11,17 +10,22 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list style="height: 100%;">
-    <ion-item class="itemProjectPage" *ngFor="let project of projects | async" detail-push (click)="openProject(project)" (load)="dismissLoading()"  >
+  <ion-list style="height: 100%;" no-lines>
+    <ion-item class="itemProjectPage" *ngFor="let project of projects | async" (load)="dismissLoading()">
+      <div *ngIf="project.isAccepted !== 1" style="height: 0;">
+      </div>
+      <div *ngIf="project.isAccepted === 1" detail-push
+           (click)="openProject(project)">
         <div class="imageProject" *ngIf="project.imageUrl">
           <img [src]="showImage(project.imageUrl)" alt="">
         </div>
-      <div class="imageTitle" *ngIf="!project.imageUrl">
-        <img src="assets/imgs/no-photo.png" alt="">
-      </div>
+        <div class="imageTitle" *ngIf="!project.imageUrl">
+          <img src="assets/imgs/no-photo.png" alt="">
+        </div>
         <div class="titleText">
           {{ project.name }}
         </div>
+      </div>
     </ion-item>
   </ion-list>
 </ion-content>

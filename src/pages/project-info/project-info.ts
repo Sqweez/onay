@@ -14,6 +14,7 @@ import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} f
 import {Profile} from "../../models/profile";
 import {CallNumber} from "@ionic-native/call-number";
 import {EmailComposer} from "@ionic-native/email-composer";
+import {AngularFireAuth} from "angularfire2/auth";
 
 /**
  * Generated class for the ProjectInfoPage page.
@@ -22,7 +23,6 @@ import {EmailComposer} from "@ionic-native/email-composer";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-project-info',
   templateUrl: 'project-info.html',
@@ -34,6 +34,7 @@ export class ProjectInfoPage {
   url: any;
   phone: any;
   email: any;
+  isAuth: boolean = true;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -43,7 +44,8 @@ export class ProjectInfoPage {
     private alertCtrl: AlertController,
     public callNumber: CallNumber,
     public actionSheetCtrl: ActionSheetController,
-    public emailComposer: EmailComposer
+    public emailComposer: EmailComposer,
+    private auth: AngularFireAuth
   ) {
   }
   async call(phone){
@@ -109,6 +111,9 @@ export class ProjectInfoPage {
   }
 
   ionViewWillEnter(){
+    if(this.auth.auth.currentUser == null){
+      this.isAuth = false;
+    }
     this.project = this.navParams.get('item');
     this.profile = this.afDatabase.object('profile/' + this.project.uid);
     this.afDatabase.object('profile/' + this.project.uid)

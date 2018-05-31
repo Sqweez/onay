@@ -14,7 +14,6 @@ import {CallNumber} from "@ionic-native/call-number";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-contacts',
   templateUrl: 'contacts.html',

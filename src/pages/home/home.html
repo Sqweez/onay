@@ -1,29 +1,31 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle right>
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title class="mainTitle">Конкурсы</ion-title>
+    <ion-title class="mainTitle">Конкурсы и новости</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list style="margin: 0; height: 100%">
     <ion-item class="itemHomePage" *ngFor="let new of news | async">
-      <div *ngIf="new.url" (click)="goToUrl(new.url)">
-        <div class="imageTitle">
-          <img [src]="showImage(new.image)" alt="">
+      <div *ngIf="new">
+        <div *ngIf="new.url" (click)="goToUrl(new.url)">
+          <div class="imageTitle">
+            <img [src]="showImage(new.image)" alt="">
+          </div>
+          <div class="titleText">
+            {{ new.title }}
+          </div>
         </div>
-        <div class="titleText">
-          {{ new.title }}
-        </div>
-      </div>
-      <div *ngIf="!new.url" (click)="showPage(new.$key)">
-        <div class="imageTitle">
-          <img [src]="showImage(new.image)" alt="">
-        </div>
-        <div class="titleText">
-          {{ new.title }}
+        <div *ngIf="!new.url" (click)="showPage(new.$key)">
+          <div class="imageTitle">
+            <img [src]="showImage(new.image)" alt="">
+          </div>
+          <div class="titleText">
+            {{ new.title }}
+          </div>
         </div>
       </div>
     </ion-item>

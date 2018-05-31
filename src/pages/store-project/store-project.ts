@@ -14,6 +14,7 @@ import {TabsPage} from "../tabs/tabs";
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import * as firebase from "firebase";
 import {ToastService} from "../../providers/services/toast.service";
+import {AlertProvider} from "../../providers/alert/alert";
 
 /**
  * Generated class for the StoreProjectPage page.
@@ -22,7 +23,6 @@ import {ToastService} from "../../providers/services/toast.service";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-store-project',
   templateUrl: 'store-project.html',
@@ -40,7 +40,8 @@ export class StoreProjectPage {
     private toastCtrl: ToastController,
     private camera: Camera,
     private actionSheetCtrl: ActionSheetController,
-    private toastService: ToastService) {
+    private toastService: ToastService,
+    public alert: AlertProvider) {
   }
 
   async createProject(){
@@ -81,9 +82,10 @@ export class StoreProjectPage {
     let id = Math.random().toString(36).substring(7);
     this.afAuth.authState.subscribe(data => {
       this.project.uid = data.uid;
+      this.project.isAccepted = 0;
       this.afDatabase.object('projects/' + id).set(this.project);
     });
-    this.showToast('Проект добавлен!');
+    this.alert.showAlert('Успешно!', 'Ваш проект успешно загружен в Onay! Он появится в списке проектов после одобрения администрацией!');
     this.navCtrl.setRoot(TabsPage);
   }
   showToast(message: String){

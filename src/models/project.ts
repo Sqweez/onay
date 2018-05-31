@@ -13,4 +13,5 @@ export interface Project {
   stage: string;
   freelance: string;
   money: string;
+  isAccepted: number;
 }

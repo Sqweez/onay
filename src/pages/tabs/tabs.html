@@ -1,10 +1,10 @@
-<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+<ion-tabs class="tabs-icon-top tabs-color-active-positive" color="dark">
   <!--  проекты список-->
   <ion-tab [root]="tab1Root" tabIcon="md-home"></ion-tab>
   <!--  конкурсы обучение-видео-->
   <ion-tab [root]="tab2Root" tabIcon="md-book"></ion-tab>
   <!--  конкурсы список-->
-  <ion-tab [root]="tab3Root" tabIcon="md-add-circle"></ion-tab>
+  <ion-tab *ngIf="isAuth" [root]="tab3Root" tabIcon="md-add-circle"></ion-tab>
   <!--  конкурсы список-->
   <ion-tab [root]="tab4Root" tabIcon="information-circle"></ion-tab>
   <!--  конкурсы список-->
