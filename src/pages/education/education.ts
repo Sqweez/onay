@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import {eduction} from "../../models/education";
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database-deprecated";
-import {Project} from "../../models/project";
-import {EduInfoPage} from '../edu-info/edu-info';
+import {AngularFireDatabase} from "angularfire2/database";
 import {EducationInfoPage} from "../education-info/education-info";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Observable} from "rxjs/Observable";
 
 
 @Component({
@@ -13,13 +12,13 @@ import {DomSanitizer} from "@angular/platform-browser";
   templateUrl: 'education.html',
 })
 export class EducationPage {
-  public education: FirebaseListObservable<eduction[]>;
+  public education: Observable<eduction[]>;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private afDatabase: AngularFireDatabase,
     private sanitizer: DomSanitizer) {
-    this.education = this.afDatabase.list('education/');
+    this.education = this.afDatabase.list<eduction>('education/').valueChanges();
   }
   openEduPage(item){
     this.navCtrl.push(EducationInfoPage, {item: item});

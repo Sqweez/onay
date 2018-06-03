@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
-  IonicPage,
   Loading,
   LoadingController,
   NavController,
@@ -10,11 +9,12 @@ import {
 } from 'ionic-angular';
 import {Project} from "../../models/project";
 import {DomSanitizer} from "@angular/platform-browser";
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {Profile} from "../../models/profile";
 import {CallNumber} from "@ionic-native/call-number";
 import {EmailComposer} from "@ionic-native/email-composer";
 import {AngularFireAuth} from "angularfire2/auth";
+import {Observable} from "rxjs/Observable";
 
 /**
  * Generated class for the ProjectInfoPage page.
@@ -28,7 +28,8 @@ import {AngularFireAuth} from "angularfire2/auth";
   templateUrl: 'project-info.html',
 })
 export class ProjectInfoPage {
-  profile: FirebaseObjectObservable<Profile>;
+  data = {} as any;
+  profile: Observable<Profile>;
   project = {} as Project;
   loading: Loading;
   url: any;
@@ -93,6 +94,7 @@ export class ProjectInfoPage {
           text: 'Написать в WhatsApp',
           icon: 'logo-whatsapp',
           handler: () => {
+            phone = phone.replace("+","");
             window.open('https://api.whatsapp.com/send?phone='+phone, '_system');
           }
         },
@@ -115,11 +117,13 @@ export class ProjectInfoPage {
       this.isAuth = false;
     }
     this.project = this.navParams.get('item');
-    this.profile = this.afDatabase.object('profile/' + this.project.uid);
+    this.profile = this.afDatabase.object<Profile>('profile/' + this.project.uid).valueChanges();
     this.afDatabase.object('profile/' + this.project.uid)
+      .valueChanges()
       .subscribe(data => {
-        this.phone = data.phone;
-        this.email = data.email;
+        this.data = data;
+        this.phone = this.data.phone;
+        this.email = this.data.email;
       });
     console.log(this.profile);
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);

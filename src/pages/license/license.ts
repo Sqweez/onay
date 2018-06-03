@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {AngularFireDatabase} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import {WelcomePage} from "../welcome/welcome";
 import {TabsPage} from "../tabs/tabs";
@@ -20,6 +20,7 @@ import {Profile} from "../../models/profile";
 export class LicensePage {
   profile = {} as Profile;
   isAccepted: boolean;
+  profileDat = {} as any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -27,11 +28,12 @@ export class LicensePage {
     private afAuth: AngularFireAuth
   ) {
     this.afAuth.authState.subscribe(auth => {
-      this.afDatabase.object('profile/' + auth.uid).subscribe( data => {
-        if(data.didLicenseAccepted == true){
+      this.afDatabase.object('profile/' + auth.uid).valueChanges().subscribe( data => {
+        this.profileDat = data;
+        if(this.profileDat.didLicenseAccepted == true){
           this.isAccepted = true;
         }
-        else if(data.didLicenseAccepted == false){
+        else if(this.profileDat.didLicenseAccepted == false){
           this.isAccepted = false;
         }
       })

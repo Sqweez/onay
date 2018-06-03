@@ -46,8 +46,8 @@
     "cordova-plugin-filechooser": "^1.0.1",
     "cordova-plugin-headercolor": "^1.0.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
-    "cordova-plugin-ionic-keyboard": "^2.0.5",
-    "cordova-plugin-ionic-webview": "^1.2.0",
+    "cordova-plugin-ionic-keyboard": "^2.1.2",
+    "cordova-plugin-ionic-webview": "^1.2.1",
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -56,6 +56,7 @@
     "ionic-cache": "^3.0.1",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
+    "mx.ferreyra.callnumber": "0.0.2",
     "rxjs": "5.5.8",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.26"
@@ -81,8 +82,11 @@
       "cordova-plugin-email-composer": {},
       "mx.ferreyra.callnumber": {},
       "cordova-plugin-headercolor": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "call-number": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   }
 }

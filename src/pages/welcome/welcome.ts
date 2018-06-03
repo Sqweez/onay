@@ -6,7 +6,7 @@ import {NativePageTransitions, NativeTransitionOptions} from "@ionic-native/nati
 import {User} from "../../models/user";
 import {AngularFireAuth} from "angularfire2/auth";
 import {ProfilePage} from "../profile/profile";
-import {AngularFireDatabase} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
 import {LicensePage} from "../license/license";
@@ -26,6 +26,7 @@ import * as firebase from "firebase";
 })
 export class WelcomePage {
   user = {}  as User;
+  data = {} as any;
   message: string;
   constructor(
     private afDatabase: AngularFireDatabase,
@@ -50,15 +51,16 @@ export class WelcomePage {
     this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then(() => {
         this.afAuth.authState.subscribe(data => {
-          this.afDatabase.object('profile/' + data.uid).subscribe(data => {
-            if (!data.firstname){
+          this.afDatabase.object('profile/' + data.uid).valueChanges().subscribe(data => {
+            this.data = data;
+            if (!this.data.firstname){
               this.navCtrl.setRoot(ProfilePage);
             }
             else{
-              if(data.didLicenseAccepted == false){
+              if(this.data.didLicenseAccepted == false){
                 this.navCtrl.setRoot(LicensePage);
               }
-              else if(data.firstname && data.didLicenseAccepted){
+              else if(this.data.firstname && this.data.didLicenseAccepted){
                 this.navCtrl.setRoot(TabsPage);
               }
             }

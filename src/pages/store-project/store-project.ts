@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
   ActionSheetController,
-  IonicPage,
   NavController,
   NavParams,
   ToastController,
@@ -9,7 +8,7 @@ import {
 } from 'ionic-angular';
 import {Project} from "../../models/project";
 import {AngularFireAuth} from "angularfire2/auth";
-import {AngularFireDatabase} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {TabsPage} from "../tabs/tabs";
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import * as firebase from "firebase";
@@ -83,7 +82,7 @@ export class StoreProjectPage {
     this.afAuth.authState.subscribe(data => {
       this.project.uid = data.uid;
       this.project.isAccepted = 0;
-      this.afDatabase.object('projects/' + id).set(this.project);
+      this.afDatabase.object('projects/' + this.afDatabase.createPushId()).set(this.project);
     });
     this.alert.showAlert('Успешно!', 'Ваш проект успешно загружен в Onay! Он появится в списке проектов после одобрения администрацией!');
     this.navCtrl.setRoot(TabsPage);

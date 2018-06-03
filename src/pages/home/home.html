@@ -19,7 +19,7 @@
             {{ new.title }}
           </div>
         </div>
-        <div *ngIf="!new.url" (click)="showPage(new.$key)">
+        <div *ngIf="!new.url" detail-push (click)="showPage(new)">
           <div class="imageTitle">
             <img [src]="showImage(new.image)" alt="">
           </div>

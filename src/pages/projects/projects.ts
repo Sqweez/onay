@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
 import {IonicPage, Loading, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {Project} from "../../models/project";
 import {DomSanitizer} from "@angular/platform-browser";
 import {ProjectInfoPage} from "../project-info/project-info";
 import {SplashScreen} from "@ionic-native/splash-screen";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AlertProvider} from "../../providers/alert/alert";
+import {Observable} from "rxjs/Observable";
+import {map} from "rxjs/operator/map";
 
 @Component({
   selector: 'page-projects',
   templateUrl: 'projects.html',
 })
 export class ProjectsPage {
-  public projects: FirebaseListObservable<Project[]>;
+  projects: Observable<Project[]>;
   loading: Loading;
   constructor(
     private afDatabase: AngularFireDatabase,
@@ -26,7 +28,9 @@ export class ProjectsPage {
     private auth: AngularFireAuth,
     public alert: AlertProvider) {
     this.menuCtrl.enable(true, 'mainMenu');
-    this.projects = this.afDatabase.list('projects/');
+    this.projects = this.afDatabase.list<Project>('projects',
+        ref => ref.orderByChild('isAccepted').equalTo(1))
+      .valueChanges();
   }
 
   showImage(image){

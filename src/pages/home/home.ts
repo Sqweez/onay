@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MenuController, NavController} from 'ionic-angular';
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import {Profile} from "../../models/profile";
 import { AngularFireStorage} from "angularfire2/storage";
@@ -8,14 +8,15 @@ import {News} from "../../models/news";
 import {DomSanitizer} from "@angular/platform-browser";
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 import {NewInfoPage} from "../new-info/new-info";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  profileData: FirebaseObjectObservable<Profile>;
-  public news: FirebaseListObservable<News[]>;
+  profileData: Observable<Profile>;
+  news: Observable<News[]>;
   username: any;
   smth: any;
   constructor(
@@ -28,7 +29,7 @@ export class HomePage {
     private inAppBrowser: InAppBrowser
     ) {
     this.menuCtrl.enable(true, 'mainMenu');
-    this.news = this.afDatabase.list('news/');
+    this.news = this.afDatabase.list<News>('news/').valueChanges();
   }
 
   ionViewWillLoad(){
@@ -36,15 +37,15 @@ export class HomePage {
     this.afAuth.authState.take(1).subscribe(data => {
       this.afDatabase.object('profile/' + data.uid);
       console.log(this.username);
-      this.profileData = this.afDatabase.object(`profile/${data.uid}`);
+      this.profileData = this.afDatabase.object<Profile>(`profile/${data.uid}`).valueChanges();
     })
   }
 
   showImage(image){
     return this.sanitizer.bypassSecurityTrustResourceUrl(image);
   }
-  showPage(id){
-    this.navCtrl.push(NewInfoPage, {id});
+  showPage(item){
+    this.navCtrl.push(NewInfoPage, {info: item});
   }
   goToUrl(url){
     const options: InAppBrowserOptions = {

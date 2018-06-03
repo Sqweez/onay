@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import {IonicPage, Loading, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
-import {User} from "../../models/user";
 import {Profile} from "../../models/profile";
 import {AngularFireAuth} from "angularfire2/auth";
-import {AngularFireDatabase} from "angularfire2/database-deprecated";
-import {HomePage} from "../home/home";
-import {TabsPage} from "../tabs/tabs";
+import {AngularFireDatabase} from "angularfire2/database";
 import {LicensePage} from "../license/license";
 import {WelcomePage} from "../welcome/welcome";
 import {ToastService} from "../../providers/services/toast.service";

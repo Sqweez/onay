@@ -11,11 +11,7 @@
 
 <ion-content padding>
   <ion-list style="height: 100%;" no-lines>
-    <ion-item class="itemProjectPage" *ngFor="let project of projects | async" (load)="dismissLoading()">
-      <div *ngIf="project.isAccepted !== 1" style="height: 0;">
-      </div>
-      <div *ngIf="project.isAccepted === 1" detail-push
-           (click)="openProject(project)">
+    <ion-item class="itemProjectPage" *ngFor="let project of projects | async" (load)="dismissLoading()" detail-push (click)="openProject(project)">
         <div class="imageProject" *ngIf="project.imageUrl">
           <img [src]="showImage(project.imageUrl)" alt="">
         </div>
@@ -25,7 +21,6 @@
         <div class="titleText">
           {{ project.name }}
         </div>
-      </div>
     </ion-item>
   </ion-list>
 </ion-content>

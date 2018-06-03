@@ -4,9 +4,10 @@ import {
   NavController,
   NavParams
 } from 'ionic-angular';
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {Project} from "../../models/project";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'page-my-profile',
@@ -14,8 +15,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class MyProfilePage {
   change: boolean = false;
-  profileInfo: FirebaseObjectObservable<any>;
-  projects: FirebaseListObservable<Project[]>;
+  projects: Observable<Project[]>;
   image: any;
   imageUrl: any;
   id: any;
@@ -28,8 +28,10 @@ export class MyProfilePage {
 
   ) {
     this.id = this.navParams.get('id');
-    this.profileInfo = this.afDatabase.object('profile/' + this.id);
-    this.projects = this.afDatabase.list('projects/');
+/*
+    this.profileInfo = this.afDatabase.object('profile/' + this.id).valueChanges();
+*/
+    this.projects = this.afDatabase.list<Project>('projects/', ref => ref.orderByChild('uid').equalTo(this.id)).valueChanges();
   }
 
   ionViewDidLoad() {

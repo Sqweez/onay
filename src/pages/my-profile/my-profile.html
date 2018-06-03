@@ -17,8 +17,7 @@
 <ion-content>
   <h2 align="center">Мои проекты</h2>
   <ion-list style="height: 100%;" no-lines>
-    <ion-item *ngFor="let project of projects | async" style="height: auto;">
-      <span *ngIf="project.uid === id">
+    <ion-item *ngFor="let project of projects | async">
         <span class="imageProject" *ngIf="project.imageUrl">
           <img [src]="showImage(project.imageUrl)" alt="">
         </span>
@@ -32,7 +31,6 @@
           <span *ngIf="project.isAccepted == 1" style="color:#43A047">Одобрен</span>
           <span *ngIf="project.isAccepted == 2" style="color:#f53d3d">Отклонен</span>
         </span>
-      </span>
     </ion-item>
   </ion-list>
 </ion-content>

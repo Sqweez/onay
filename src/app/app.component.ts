@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { WelcomePage } from "../pages/welcome/welcome";
 import {Keyboard} from "@ionic-native/keyboard";
 import {AngularFireAuth} from "angularfire2/auth";
-import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {Profile} from "../models/profile";
 import {TabsPage} from "../pages/tabs/tabs";
 import {LicensePage} from "../pages/license/license";
@@ -18,6 +18,7 @@ import { Network } from '@ionic-native/network'
 import {MyProfilePage} from "../pages/my-profile/my-profile";
 import {HomePage} from "../pages/home/home";
 import {RegisterPage} from "../pages/register/register";
+import {Observable} from "rxjs/Observable";
 @Component({
   templateUrl: 'app.html'
 })
@@ -29,10 +30,11 @@ export class MyApp {
   password: string = "123456";*/
   showSplash = true;
   rootPage: any;
-  profileData: FirebaseObjectObservable<Profile>;
+  profileData: Observable<Profile>;
   unregPages: Array<{title: string, component: any, icon: string}>;
   pages: Array<{title: string, component: any, icon: string}>;
   tabs: Array<{component: any, icon: string}>;
+  profileDat = {} as any
   constructor(
     private afDatabase: AngularFireDatabase,
     private afAuth: AngularFireAuth,
@@ -66,17 +68,20 @@ export class MyApp {
       this.afAuth.authState.subscribe(data => {
         if(data){
           console.log('1');
-          this.afDatabase.object('profile/' + data.uid).subscribe(data =>{
-            if(data.didLicenseAccepted == true){
+          this.afDatabase.object('profile/' + data.uid)
+            .valueChanges()
+            .subscribe(data =>{
+              this.profileDat = data;
+            if(this.profileDat.didLicenseAccepted){
               this.afAuth.authState.subscribe(data => {
                 console.log('Авторизован');
-                this.profileData = this.afDatabase.object(`profile/${data.uid}`);
+                this.profileData = this.afDatabase.object<Profile>(`profile/${data.uid}`).valueChanges();
               });
               this.headerColor.tint('#3f71ae');
               this.rootPage = TabsPage;
               console.log('2');
             }
-            else if(data.didLicenseAccepted == false){
+            else if(this.profileDat.didLicenseAccepted == false){
               this.headerColor.tint('#3f71ae');
               this.rootPage = LicensePage;
               console.log('3');

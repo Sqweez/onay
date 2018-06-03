@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {ActionSheetController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database-deprecated";
+import {ActionSheetController, NavController, NavParams} from 'ionic-angular';
+import {AngularFireDatabase} from "angularfire2/database"
 import {Contacts} from "../../models/contact";
-import {News} from "../../models/news";
 import {DomSanitizer} from "@angular/platform-browser";
 import {EmailComposer} from "@ionic-native/email-composer";
 import {CallNumber} from "@ionic-native/call-number";
+import {Observable} from "rxjs/Observable";
 
 /**
  * Generated class for the ContactsPage page.
@@ -19,7 +19,7 @@ import {CallNumber} from "@ionic-native/call-number";
   templateUrl: 'contacts.html',
 })
 export class ContactsPage {
-  public contacts: FirebaseListObservable<Contacts[]>;
+  public contacts: Observable<Contacts[]>;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -28,7 +28,7 @@ export class ContactsPage {
     private actionSheetCtrl: ActionSheetController,
     public emailComposer: EmailComposer,
     public callNumber: CallNumber) {
-    this.contacts = this.afDatabase.list('contacts');
+    this.contacts = this.afDatabase.list<Contacts>('contacts').valueChanges();
   }
 
   showImage(image){

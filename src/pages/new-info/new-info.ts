@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database-deprecated";
+import {AngularFireDatabase} from "angularfire2/database";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Observable} from "rxjs/Observable";
+import {News} from "../../models/news";
 
 /**
  * Generated class for the NewInfoPage page.
@@ -15,15 +17,12 @@ import {DomSanitizer} from "@angular/platform-browser";
   templateUrl: 'new-info.html',
 })
 export class NewInfoPage {
-  titleInfo: FirebaseObjectObservable<any>;
-  titleId: string;
+  titleInfo = {} as News;
   constructor(private afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, private sanitizer: DomSanitizer) {
-    this.titleId = this.navParams.get('id');
+    this.titleInfo = this.navParams.get('info');
+    console.log(this.titleInfo);
   }
 
-  ionViewDidLoad() {
-    this.titleInfo = this.afDatabase.object('news/' + this.titleId);
-  }
   showImage(image){
     return this.sanitizer.bypassSecurityTrustResourceUrl(image);
   }

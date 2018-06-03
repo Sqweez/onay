@@ -7,12 +7,12 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{(titleInfo | async)?.title}}</ion-title>
+    <ion-title>{{titleInfo.title}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 <ion-content padding>
-  <img [src]="showImage((titleInfo | async)?.image)" alt="">
-  <h1>{{(titleInfo | async)?.title}}</h1>
-  <p>{{(titleInfo | async)?.text}}</p>
+  <img [src]="showImage(titleInfo.image)" alt="">
+  <h1>{{titleInfo.title}}</h1>
+  <p>{{titleInfo.text}}</p>
 </ion-content>
