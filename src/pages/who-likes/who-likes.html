@@ -1,0 +1,17 @@
+<ion-content padding
+             style="width: 70%;
+             height: 70%;
+             top: 15%;
+             left: 15%;
+             right: 15%;
+             bottom: 15%;
+             opacity: 0.8;
+             background-color: #333;
+             color: white;">
+  <p>Понравилось пользователям:</p>
+  <ion-list no-lines style="background-color: #333;">
+    <ion-item style="background-color: #333; color: white" *ngFor="let user of users">
+      {{user}}
+    </ion-item>
+  </ion-list>
+</ion-content>

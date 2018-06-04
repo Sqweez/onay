@@ -16,8 +16,8 @@
 </ion-header>
 <ion-content>
   <h2 align="center">Мои проекты</h2>
-  <ion-list style="height: 100%;" no-lines>
-    <ion-item *ngFor="let project of projects | async">
+  <ion-list style="height: 100%;">
+    <ion-item *ngFor="let project of projects | async" (press)="pressEvent(project)">
         <span class="imageProject" *ngIf="project.imageUrl">
           <img [src]="showImage(project.imageUrl)" alt="">
         </span>

@@ -25,7 +25,7 @@ export class LicensePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private afDatabase: AngularFireDatabase,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
   ) {
     this.afAuth.authState.subscribe(auth => {
       this.afDatabase.object('profile/' + auth.uid).valueChanges().subscribe( data => {

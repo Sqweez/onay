@@ -6,6 +6,7 @@ import {AngularFireDatabase} from "angularfire2/database";
 import {LicensePage} from "../license/license";
 import {WelcomePage} from "../welcome/welcome";
 import {ToastService} from "../../providers/services/toast.service";
+import {UploadPhotoPage} from "../upload-photo/upload-photo";
 
 @Component({
   selector: 'page-profile',
@@ -58,6 +59,7 @@ export class ProfilePage {
     this.afAuth.authState.subscribe( auth => {
       this.profile.email = auth.email;
       this.profile.didLicenseAccepted = false;
+      this.profile.avatar = 0;
       this.profile.phone = this.profile.phone.replace("87","+77");
       this.afDatabase.object(`profile/${auth.uid}`).set(this.profile)
         .then(() => this.navCtrl.push(LicensePage));

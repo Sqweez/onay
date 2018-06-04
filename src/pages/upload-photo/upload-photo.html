@@ -1,0 +1,18 @@
+<ion-content class="registerPage profilePage" no-bounce>
+  <div class="logo">Onay Invest</div>
+  <div class="prPageInfo">Загрузите свою фотографию</div>
+  <div class="regForm">
+    <div *ngIf="image == null">
+      <button ion-button color="dark" block (click)="presentActionSheet()">Добавить фотографию</button>
+    </div>
+    <div  *ngIf="image != null"><img class="uploadedImage" [src]="image" alt="Пусто!"></div>
+    <input type="file" (change)="onFileUpload($event)">
+    <button *ngIf="image != null" ion-button color="dark" block (click)="presentActionSheet()">Добавить другую фотографию</button>
+    <div padding>
+      <button *ngIf="image != null" ion-button block color="primary" (click)="uploadPhoto()">Загрузить фото</button>
+    </div>
+    <button color="light" ion-button block clear (click)="doNotUpload()">
+      Я загружу фото позже
+    </button>
+  </div>
+</ion-content>

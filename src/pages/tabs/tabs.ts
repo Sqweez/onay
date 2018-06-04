@@ -8,6 +8,7 @@ import {ProjectsPage} from "../projects/projects";
 import {ContactsPage} from "../contacts/contacts";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AlertProvider} from "../../providers/alert/alert";
+import {NativeTransitionOptions, NativePageTransitions} from "@ionic-native/native-page-transitions";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -20,13 +21,47 @@ export class TabsPage {
   tab4Root = HomePage;
   tab5Root = ContactsPage;
   isAuth: boolean = true;
+  loaded: boolean = false;
+  tabIndex: number = 0;
+  constructor(
+    private auth: AngularFireAuth,
+    public alert: AlertProvider,
+    private transition: NativePageTransitions) {
 
-  constructor(private auth: AngularFireAuth, public alert: AlertProvider) {
     if(this.auth.auth.currentUser == null){
       this.isAuth = false;
+      this.alert.showAlert('Внимание!', 'Вы вошли как гость, поэтому ваш функционал ограничен! Вы не можете добавлять свои проекты, а также не можете смотреть информацию об авторах проектов!');
     }
     else {
       this.isAuth = true;
     }
+  }
+  getAnimationDirection(index) {
+    let currentIndex = this.tabIndex;
+    this.tabIndex = index;
+    switch (true) {
+      case currentIndex < index:
+        return('left');
+      case currentIndex > index:
+        return('right');
+    }
+  }
+  makeTransition(e){
+    let options: NativeTransitionOptions = {
+      direction:this.getAnimationDirection(e.index),
+      duration: 250,
+      slowdownfactor: -1,
+      slidePixels: 0,
+      iosdelay: 20,
+      androiddelay: 0,
+      fixedPixelsTop: 0,
+      fixedPixelsBottom: 48
+    };
+
+    if (!this.loaded) {
+      this.loaded = true;
+      return;
+    }
+    this.transition.slide(options);
   }
 }

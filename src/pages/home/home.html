@@ -8,23 +8,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-list style="margin: 0; height: 100%">
-    <ion-item class="itemHomePage" *ngFor="let new of news | async">
+  <ion-list style="margin: 0; height: 100%" >
+    <ion-item class="itemHomePage" *ngFor="let new of news | async" detail-push (click)="showPage(new)">
       <div *ngIf="new">
-        <div *ngIf="new.url" (click)="goToUrl(new.url)">
+        <div>
           <div class="imageTitle">
             <img [src]="showImage(new.image)" alt="">
           </div>
           <div class="titleText">
-            {{ new.title }}
-          </div>
-        </div>
-        <div *ngIf="!new.url" detail-push (click)="showPage(new)">
-          <div class="imageTitle">
-            <img [src]="showImage(new.image)" alt="">
-          </div>
-          <div class="titleText">
-            {{ new.title }}
+            {{ new.title }}<br><br>
+            <p>просмотров: {{new.viewCount}}</p>
           </div>
         </div>
       </div>

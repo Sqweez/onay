@@ -10,7 +10,16 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list style="height: 100%;" no-lines>
+  <ion-list>
+    <ion-item *ngFor="let project of projects | async" (load)="dismissLoading()" detail-push (click)="openProject(project)">
+      <ion-thumbnail item-start>
+        <img [src]="showImage(project.imageUrl)">
+      </ion-thumbnail>
+      <h2 style="white-space: normal">{{ project.name }}</h2>
+     <!-- <p>Ugh. As if.</p>-->
+    </ion-item>
+  </ion-list>
+  <!--<ion-list style="height: 100%;">
     <ion-item class="itemProjectPage" *ngFor="let project of projects | async" (load)="dismissLoading()" detail-push (click)="openProject(project)">
         <div class="imageProject" *ngIf="project.imageUrl">
           <img [src]="showImage(project.imageUrl)" alt="">
@@ -22,5 +31,5 @@
           {{ project.name }}
         </div>
     </ion-item>
-  </ion-list>
+  </ion-list>-->
 </ion-content>

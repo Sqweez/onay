@@ -34,14 +34,19 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #1976D2,
+  primary:    #654EA3,
   secondary:  #43A047,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
+  tabs:       #345a99,
   customNav:  rgba(0, 0, 0, 0.7 )
 );
 $datetime-md-padding-start: 0;
+.redText{
+  color: red;
+}
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

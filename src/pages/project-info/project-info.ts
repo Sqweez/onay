@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
   Loading,
-  LoadingController,
+  LoadingController, ModalController,
   NavController,
   NavParams
 } from 'ionic-angular';
@@ -15,6 +15,11 @@ import {CallNumber} from "@ionic-native/call-number";
 import {EmailComposer} from "@ionic-native/email-composer";
 import {AngularFireAuth} from "angularfire2/auth";
 import {Observable} from "rxjs/Observable";
+import * as $ from 'jquery';
+import {map} from "rxjs/operators";
+import {ToastService} from "../../providers/services/toast.service";
+import {ToastProvider} from "../../providers/toast/toast";
+import {WhoLikesPage} from "../who-likes/who-likes";
 
 /**
  * Generated class for the ProjectInfoPage page.
@@ -36,6 +41,10 @@ export class ProjectInfoPage {
   phone: any;
   email: any;
   isAuth: boolean = true;
+  likes = {} as any;
+  didLiked: boolean = false;
+  image: any;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -46,40 +55,50 @@ export class ProjectInfoPage {
     public callNumber: CallNumber,
     public actionSheetCtrl: ActionSheetController,
     public emailComposer: EmailComposer,
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    public toast: ToastProvider,
+    public modalCtrl: ModalController
   ) {
   }
-  async call(phone){
+
+  async call(phone) {
     this.callNumber.callNumber(phone, true);
   }
-  phoneTo(phone){
-   let alert = this.alertCtrl.create({
-     title:'Вы хотите позвонить автору проекта?',
-     buttons: [
-       {
-         text: 'Да',
-         handler: () => {
-           this.call(phone);
-         }
-       },
-       {
-         text: 'Нет',
-         role: 'cancel',
-         handler: () => {
-         }
-       }
-     ]
-   });
+
+  showImage(image) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(image);
+  }
+
+  phoneTo(phone) {
+    let alert = this.alertCtrl.create({
+      title: 'Вы хотите позвонить автору проекта?',
+      buttons: [
+        {
+          text: 'Да',
+          handler: () => {
+            this.call(phone);
+          }
+        },
+        {
+          text: 'Нет',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
     alert.present();
   }
-  sendEmail(email){
+
+  sendEmail(email) {
     this.emailComposer.addAlias('gmail', 'com.google.android.gm');
     this.emailComposer.open({
       app: 'gmail',
-      to:   email
+      to: email
     });
   }
-  mailTo(phone, email){
+
+  mailTo(phone, email) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Выберите метод связи',
       buttons: [
@@ -94,8 +113,8 @@ export class ProjectInfoPage {
           text: 'Написать в WhatsApp',
           icon: 'logo-whatsapp',
           handler: () => {
-            phone = phone.replace("+","");
-            window.open('https://api.whatsapp.com/send?phone='+phone, '_system');
+            phone = phone.replace("+", "");
+            window.open('https://api.whatsapp.com/send?phone=' + phone, '_system');
           }
         },
         {
@@ -108,15 +127,28 @@ export class ProjectInfoPage {
     });
     actionSheet.present();
   }
-  videoLoaded(){
+
+  videoLoaded() {
     this.loading.dismiss();
   }
 
-  ionViewWillEnter(){
-    if(this.auth.auth.currentUser == null){
+  ionViewWillEnter() {
+    if (this.auth.auth.currentUser == null) {
       this.isAuth = false;
     }
     this.project = this.navParams.get('item');
+    this.afDatabase.object('likes/projects/' + this.project.key + '/' + this.auth.auth.currentUser.uid)
+      .valueChanges()
+      .subscribe(data => {
+        if(data){
+          $('#like').removeClass('far').addClass('fas').removeClass('likeButton').addClass('dislikeButton');
+          this.didLiked = true;
+        }
+      })
+    this.startCountViews(this.isAuth);
+    if (this.project.videoUrl == undefined) {
+      this.loading.dismiss();
+    };
     this.profile = this.afDatabase.object<Profile>('profile/' + this.project.uid).valueChanges();
     this.afDatabase.object('profile/' + this.project.uid)
       .valueChanges()
@@ -125,15 +157,51 @@ export class ProjectInfoPage {
         this.phone = this.data.phone;
         this.email = this.data.email;
       });
-    console.log(this.profile);
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
+    this.image = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.imageUrl);
     this.loading = this.loadingCtrl.create({
       content: 'Пожалуйста подождите'
     });
     this.loading.present();
   }
-  ionViewDidLoad() {
 
+  startCountViews(auth) {
+    this.afDatabase.object('views/projects/' + this.project.key + '/'+ this.auth.auth.currentUser.uid).valueChanges().subscribe(data => {
+      if (!data) {
+        if (auth == true) {
+          const count = this.project.viewCount + 1;
+          this.afDatabase.object('projects/' + this.project.key).update({viewCount: count});
+          this.afDatabase.object('views/' + '/projects/'+ this.project.key + '/' + this.auth.auth.currentUser.uid).set({view: 1});
+        }
+      }
+    })
   }
 
+  like(id, didLiked) {
+    console.log(this.didLiked);
+    if (didLiked == false) {
+      this.project.likeCount++;
+      $('#like').removeClass('far').addClass('fas').removeClass('likeButton').addClass('dislikeButton');
+      this.afDatabase.object('projects/' + id.key + '/').update({likeCount: this.project.likeCount});
+      this.afDatabase.object('likes/projects/' + id.key + '/' + this.auth.auth.currentUser.uid).set({like: 1});
+      this.didLiked = true;
+    }
+    else {
+      this.afDatabase.object('likes/projects/'+ id.key + '/' + this.auth.auth.currentUser.uid).remove();
+      this.didLiked = false;
+      this.project.likeCount = this.project.likeCount - 1;
+      $('#like').removeClass('fas').addClass('far').removeClass('dislikeButton').addClass('likeButton');
+      this.afDatabase.object('projects/' + id.key).update({likeCount: this.project.likeCount});
+    }
+  }
+
+  showModal(count) {
+    /*if(count == 0){
+      this.toast.showToast('У данного проекта еще нет лайков:(');
+    }
+    else {
+      const modal = this.modalCtrl.create(WhoLikesPage, {id: this.project.key});
+      modal.present();
+    }*/
+  }
 }

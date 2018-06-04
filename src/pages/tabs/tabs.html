@@ -1,8 +1,8 @@
-<ion-tabs class="tabs-icon-top tabs-color-active-positive" color="dark">
+<ion-tabs class="tabs-icon-top tabs-color-active-positive" color="primary" (ionChange)="makeTransition($event)">
   <!--  проекты список-->
   <ion-tab [root]="tab1Root" tabIcon="md-home"></ion-tab>
   <!--  конкурсы обучение-видео-->
-  <ion-tab [root]="tab2Root" tabIcon="md-book"></ion-tab>
+  <ion-tab [root]="tab2Root" tabIcon="md-school"></ion-tab>
   <!--  конкурсы список-->
   <ion-tab *ngIf="isAuth" [root]="tab3Root" tabIcon="md-add-circle"></ion-tab>
   <!--  конкурсы список-->

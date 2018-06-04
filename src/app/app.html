@@ -9,15 +9,15 @@
       <span class="textInSidebarProf">Здравствуйте, гость</span>
     </div>
   </ion-header>
-  <ion-content style="background-color: #1976D2">
-    <ion-list style="background-color: #1976D2" no-lines>
-      <button style="background-color: #1976D2; color: white" menuClose ion-item *ngFor="let p of pages"
+  <ion-content style="background-color: #654EA3" class="no-scroll">
+    <ion-list no-lines>
+      <button style="background-color: #654EA3; color: white; padding-top: 5%" menuClose ion-item *ngFor="let p of pages"
               (click)="openPage(p)">
         <ion-icon style="float: left; font-weight: 100; margin-right: 5%;" name="{{p.icon}}"></ion-icon>
         <span style="font-weight: lighter;">{{p.title}}</span>
       </button>
-      <div *ngIf="!profileData" style="margin-top: 100%;">
-        <button style="background-color: #1976D2; color: white" menuClose ion-item *ngFor="let p of unregPages"
+      <div *ngIf="!profileData" style="margin-top: 70%;">
+        <button style="background-color: #654EA3; color: white; padding-top: 5%" menuClose ion-item *ngFor="let p of unregPages"
                 (click)="openPage(p)">
           <ion-icon style="float: left; font-weight: 100; margin-right: 5%;" name="{{p.icon}}"></ion-icon>
           <span style="font-weight: lighter;">{{p.title}}</span>

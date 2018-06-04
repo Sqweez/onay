@@ -1,5 +1,6 @@
 page-tabs {
 
 }
-.tabs-color-active-positive {
+.tabs-md-tabs .tab-button:hover:not(.disable-hover), .tabs-md-tabs .tab-button[aria-selected=true], .tabs-md-tabs .tab-button[aria-selected=true] .tab-button-icon {
+  color: #333;
 }

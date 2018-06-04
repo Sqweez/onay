@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   ActionSheetController,
   NavController,
@@ -14,7 +14,7 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 import * as firebase from "firebase";
 import {ToastService} from "../../providers/services/toast.service";
 import {AlertProvider} from "../../providers/alert/alert";
-
+import * as $ from 'jquery';
 /**
  * Generated class for the StoreProjectPage page.
  *
@@ -30,6 +30,7 @@ export class StoreProjectPage {
   project = {} as Project;
   image: any;
   imageUrl: any;
+
   constructor(
     private afAuth: AngularFireAuth,
     private afDatabase: AngularFireDatabase,
@@ -43,30 +44,35 @@ export class StoreProjectPage {
     public alert: AlertProvider) {
   }
 
-  async createProject(){
-    this.project.videoUrl = 'https://www.youtube.com/embed/' + this.getVideoId(this.project.videoUrl);
-      if(this.project.name == null){
-        this.showToast('Введите название проекта');
-      }
+  async createProject() {
+    if(this.project.videoUrl){
+      this.project.videoUrl = 'https://www.youtube.com/embed/' + this.getVideoId(this.project.videoUrl);
+    }
+    if (this.project.name == null) {
+      this.showToast('Введите название проекта');
+    }
 
-      if(this.project.description == null){
-        this.showToast('Введите описание');
-      }
-    if(this.project.stage == null){
+    if (this.project.description == null) {
+      this.showToast('Введите описание');
+    }
+    if (this.project.stage == null) {
       this.showToast('Введите стадию проекта');
     }
-    if(this.image == null){
+    if (this.image == null) {
       this.showToast('Загрузите логотип');
     }
-      if (this.image != null) {
-        await firebase.storage().ref().child(`projects/${this.project.name}_logo.jpg`).putString(this.image, 'data_url').then(data => {
-          this.project.imageUrl = data.downloadURL;
-        });
-        await this.pushProjectToDatabase();
-      }
+    if (this.image != null) {
+      $('#add').css('display', 'none');
+      $('#loading').css('display', 'block').css('margin-top', '50%');
+      await firebase.storage().ref().child(`projects/${this.project.name}_logo.jpg`).putString(this.image, 'data_url').then(data => {
+        this.project.imageUrl = data.downloadURL;
+      });
+      await this.pushProjectToDatabase();
+    }
 
   }
-  getVideoId(url){
+
+  getVideoId(url) {
     let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     let match = url.match(regExp);
 
@@ -76,18 +82,21 @@ export class StoreProjectPage {
       return 'error';
     }
   }
-  pushProjectToDatabase(){
-    console.log('URL OUTTER:' + this.project.imageUrl );
-    let id = Math.random().toString(36).substring(7);
+
+  pushProjectToDatabase() {
+    console.log('URL OUTTER:' + this.project.imageUrl);
     this.afAuth.authState.subscribe(data => {
       this.project.uid = data.uid;
       this.project.isAccepted = 0;
+      this.project.likeCount = 0;
+      this.project.viewCount = 0;
       this.afDatabase.object('projects/' + this.afDatabase.createPushId()).set(this.project);
     });
     this.alert.showAlert('Успешно!', 'Ваш проект успешно загружен в Onay! Он появится в списке проектов после одобрения администрацией!');
     this.navCtrl.setRoot(TabsPage);
   }
-  showToast(message: String){
+
+  showToast(message: String) {
     let toast = this.toastCtrl.create({
       message: '' + message,
       duration: 3000,
@@ -95,7 +104,8 @@ export class StoreProjectPage {
     });
     toast.present();
   }
-  presentActionSheet(){
+
+  presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Выберите тип загрузки',
       buttons: [
@@ -122,23 +132,24 @@ export class StoreProjectPage {
 
     actionSheet.present();
   }
-  async takePicture(sourceType:number) {
+
+  async takePicture(sourceType: number) {
     const options: CameraOptions = {
       quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
-      sourceType:sourceType,
+      sourceType: sourceType,
     };
 
     await this.camera.getPicture(options)
       .then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.image = base64Image;
-    }, (err) => {
-      // Handle error
-    });
+        let base64Image = 'data:image/jpeg;base64,' + imageData;
+        this.image = base64Image;
+      }, (err) => {
+        // Handle error
+      });
   }
 
 }

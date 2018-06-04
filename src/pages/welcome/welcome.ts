@@ -53,7 +53,7 @@ export class WelcomePage {
         this.afAuth.authState.subscribe(data => {
           this.afDatabase.object('profile/' + data.uid).valueChanges().subscribe(data => {
             this.data = data;
-            if (!this.data.firstname){
+            if (this.data.firstname == null){
               this.navCtrl.setRoot(ProfilePage);
             }
             else{

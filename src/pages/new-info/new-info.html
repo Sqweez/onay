@@ -15,4 +15,14 @@
   <img [src]="showImage(titleInfo.image)" alt="">
   <h1>{{titleInfo.title}}</h1>
   <p>{{titleInfo.text}}</p>
+  <ion-chip style="float: right;">
+    <ion-icon name="eye"></ion-icon>
+    <ion-label>Просмотры: {{titleInfo.viewCount}}</ion-label>
+  </ion-chip>
+  <span style="margin-top: -2%;">
+    <button color="tabs" style="padding: 6px" ion-button clear (click)="like(titleInfo, didLiked)">
+      <i class="far fa-heart likeButton" id="like"></i>
+    </button>
+    <ion-badge class="countsOfLikes">{{titleInfo.likeCount}}</ion-badge>
+  </span>
 </ion-content>

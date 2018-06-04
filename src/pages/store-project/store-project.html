@@ -16,16 +16,13 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding id="add">
   <ion-list>
     <ion-item>
       <ion-input placeholder="Название проекта" type="text" [(ngModel)]="project.name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Ссылка на питч на youtube" type="url" [(ngModel)]="project.videoUrl"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-textarea placeholder="Описание проекта"[(ngModel)]="project.description"></ion-textarea>
+      <ion-textarea rows="4" placeholder="Описание проекта"[(ngModel)]="project.description"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-input placeholder="Стадия проекта" type="text" [(ngModel)]="project.stage"></ion-input>
@@ -36,6 +33,9 @@
     <ion-item>
       <ion-input placeholder="Нужная сумма инвестиций" type="text" [(ngModel)]="project.money"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-input placeholder="Ссылка на питч на youtube" type="url" [(ngModel)]="project.videoUrl"></ion-input>
+    </ion-item>
     <div *ngIf="image == null">
       <button ion-button color="dark" block (click)="presentActionSheet()">Добавить логотип</button>
     </div>
@@ -45,3 +45,9 @@
     <button ion-button color="primary" (click)="createProject()" block>Сохранить проект</button>
   </div>
 </ion-content>
+<div class="sk-folding-cube" id="loading" style="display: none;">
+  <div class="sk-cube1 sk-cube"></div>
+  <div class="sk-cube2 sk-cube"></div>
+  <div class="sk-cube4 sk-cube"></div>
+  <div class="sk-cube3 sk-cube"></div>
+</div>

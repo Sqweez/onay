@@ -17,4 +17,14 @@
   <iframe width="100%" [src]="url" (load)="videoLoaded()" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   <h1>{{education.title}}</h1>
   <p>{{education.description}}</p>
+  <ion-chip style="float: right;">
+    <ion-icon name="eye"></ion-icon>
+    <ion-label>Просмотры: {{education.viewCount}}</ion-label>
+  </ion-chip>
+  <span style="margin-top: -2%;">
+    <button color="tabs" style="padding: 6px" ion-button clear (click)="like(education, didLiked)">
+      <i class="far fa-heart likeButton" id="like"></i>
+    </button>
+    <ion-badge class="countsOfLikes">{{education.likeCount}}</ion-badge>
+  </span>
 </ion-content>

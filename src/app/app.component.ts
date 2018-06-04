@@ -48,8 +48,6 @@ export class MyApp {
     public ntwrk: Network) {
     this.initializeApp();
 
-
-
     // used for an example of ngFor and navigation
     this.unregPages = [
       {title: 'Войти', component: WelcomePage, icon: 'md-home'},
@@ -58,7 +56,7 @@ export class MyApp {
     this.pages = [
     /*  { title: 'Настройки', component: 'settings', icon: 'md-cog' },*/
       { title: 'Лицензионное соглашение', component: LicensePage, icon: 'mail' },
-      { title: 'О нас', component: AboutUsPage, icon: 'information-circle' },
+      { title: 'О нас', component: AboutUsPage, icon: 'contact' },
       { title: 'Выйти', component: null, icon: 'exit'}
     ];
 
@@ -95,9 +93,10 @@ export class MyApp {
         }
       });
       this.headerColor.tint('#3f71ae');
-      this.statusBar.backgroundColorByHexString('#3f71ae');
       this.keyboard.disableScroll(true);
-      timer(3000).subscribe(() => this.showSplash = false);
+      timer(3000).subscribe(() => {
+        this.statusBar.backgroundColorByHexString('#654EA3');
+        this.showSplash = false});
     });
   }
   showProfile(){

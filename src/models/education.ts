@@ -4,4 +4,7 @@ export class eduction {
   url: any;
   description: string;
   imageUrl: string;
+  key: string;
+  viewCount: number;
+  likeCount: number;
 }

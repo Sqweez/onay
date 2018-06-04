@@ -8,7 +8,8 @@ import {SplashScreen} from "@ionic-native/splash-screen";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AlertProvider} from "../../providers/alert/alert";
 import {Observable} from "rxjs/Observable";
-import {map} from "rxjs/operator/map";
+import {map} from "rxjs/operators";
+import {NativePageTransitions, NativeTransitionOptions} from "@ionic-native/native-page-transitions";
 
 @Component({
   selector: 'page-projects',
@@ -26,11 +27,16 @@ export class ProjectsPage {
     public loadingCtrl: LoadingController,
     public splashScreen: SplashScreen,
     private auth: AngularFireAuth,
-    public alert: AlertProvider) {
+    public alert: AlertProvider,
+    public nativePageTransitions: NativePageTransitions) {
     this.menuCtrl.enable(true, 'mainMenu');
     this.projects = this.afDatabase.list<Project>('projects',
         ref => ref.orderByChild('isAccepted').equalTo(1))
-      .valueChanges();
+      .snapshotChanges().pipe(
+        map(changes =>
+          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+        )
+      );
   }
 
   showImage(image){
@@ -39,13 +45,21 @@ export class ProjectsPage {
 
   ionViewWillEnter(){
     console.log(this.auth.auth.currentUser);
-    if(this.auth.auth.currentUser == null){
-      this.alert.showAlert('Внимание!', 'Вы вошли как гость, поэтому ваш функционал ограничен! Вы не можете добавлять свои проекты, а также не можете смотреть информацию об авторах проектов!');
-    }
     this.splashScreen.hide();
 
   }
   openProject(item){
+    let options: NativeTransitionOptions = {
+      direction: 'up',
+      duration: 350,
+      slowdownfactor: -1,
+      slidePixels: 0,
+      iosdelay: 20,
+      androiddelay: 0,
+      fixedPixelsTop: 0,
+      fixedPixelsBottom: 48
+    };
+    this.nativePageTransitions.slide(options);
     this.navCtrl.push(ProjectInfoPage, {item: item, videourl: item.videoUrl})
   }
 

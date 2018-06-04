@@ -41,6 +41,8 @@ import { AlertProvider } from '../providers/alert/alert';
 import { ToastProvider } from '../providers/toast/toast';
 import {Network} from "@ionic-native/network";
 import {AboutUsPage} from "../pages/about-us/about-us";
+import {WhoLikesPage} from "../pages/who-likes/who-likes";
+import {UploadPhotoPage} from "../pages/upload-photo/upload-photo";
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import {AboutUsPage} from "../pages/about-us/about-us";
     ProjectInfoPage,
     EducationInfoPage,
     WelcomePage,
-    AboutUsPage
+    AboutUsPage,
+    WhoLikesPage,
+    UploadPhotoPage
   ],
   imports: [
     BrowserModule,
@@ -92,11 +96,14 @@ import {AboutUsPage} from "../pages/about-us/about-us";
     ProjectInfoPage,
     EducationInfoPage,
     WelcomePage,
-    AboutUsPage
+    AboutUsPage,
+    WhoLikesPage,
+    UploadPhotoPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    HeaderColor,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativePageTransitions,
     Keyboard,
@@ -111,7 +118,7 @@ import {AboutUsPage} from "../pages/about-us/about-us";
     HeaderColor,
     AlertProvider,
     ToastProvider,
-    Network
+    Network,
   ]
 })
 export class AppModule {}
