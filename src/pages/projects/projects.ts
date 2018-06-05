@@ -44,7 +44,6 @@ export class ProjectsPage {
   }
 
   ionViewWillEnter(){
-    console.log(this.auth.auth.currentUser);
     this.splashScreen.hide();
 
   }

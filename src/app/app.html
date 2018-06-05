@@ -1,7 +1,17 @@
 <ion-menu [content]="content" id="mainMenu" side="left">
   <ion-header *ngIf="profileData" class="profileInfoBlock" (click)="showProfile()" no-border="">
     <div class="sideMenuHeader">
-      <span class="textInSidebarProf"> {{(profileData | async)?.firstname}} {{(profileData | async)?.lastname}}</span>
+      <ion-list>
+        <ion-item style="background-color: #654EA3">
+          <ion-avatar item-start *ngIf="avatar">
+            <img [src]="showAvatar(avatar)" alt="">
+          </ion-avatar>
+          <ion-avatar item-start *ngIf="!avatar">
+            <img src="assets/imgs/nophoto.png" alt="">
+          </ion-avatar>
+          <h2 style="color: #fafafa;"> {{(profileData | async)?.firstname}} {{(profileData | async)?.lastname}}</h2>
+        </ion-item>
+      </ion-list>
     </div>
   </ion-header>
   <ion-header *ngIf="!profileData" class="profileInfoBlock" no-border="">

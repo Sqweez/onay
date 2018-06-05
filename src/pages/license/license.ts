@@ -21,12 +21,16 @@ export class LicensePage {
   profile = {} as Profile;
   isAccepted: boolean;
   profileDat = {} as any;
+  license = {} as any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private afDatabase: AngularFireDatabase,
     private afAuth: AngularFireAuth,
   ) {
+    this.afDatabase.object('license').valueChanges().subscribe(data => {
+      this.license = data;
+    });
     this.afAuth.authState.subscribe(auth => {
       this.afDatabase.object('profile/' + auth.uid).valueChanges().subscribe( data => {
         this.profileDat = data;
@@ -49,9 +53,6 @@ export class LicensePage {
   decline(){
     this.afAuth.auth.signOut();
     this.navCtrl.setRoot(WelcomePage);
-  }
-  ionViewDidLoad(){
-    console.log(this.isAccepted);
   }
 
 }

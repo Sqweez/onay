@@ -9,7 +9,7 @@ import * as firebase from "firebase";
 import {ToastService} from "../../providers/services/toast.service";
 import {ToastProvider} from "../../providers/toast/toast";
 import {AlertProvider} from "../../providers/alert/alert";
-
+import * as $ from 'jquery';
 /**
  * Generated class for the UploadPhotoPage page.
  *
@@ -79,15 +79,11 @@ export class UploadPhotoPage {
     });
     actionSheet.present();
   }
-  onFileUpload(event){
-    console.log(event);
-    this.image = event.target.files[0];
-  }
-  uploadPhoto() {
+  async uploadPhoto() {
     if (this.image != null) {
-      this.alert.showAlert('1', '1');
-      this.storage.ref(`projects/${this.image}`).child(`projects/${this.image}`).putString(this.image, 'data_url').then(data => {
-        this.alert.showAlert('2', '2');
+      $('#add').css('display', 'none');
+      $('#loading').css('display', 'block').css('margin-top', '75%');
+      await firebase.storage().ref().child('profile/'+ this.auth.auth.currentUser.uid+ '/avatar.jpg').putString(this.image, 'data_url').then(data => {
         this.imageUrl = data.downloadURL;
         this.db.object('profile/' + this.auth.auth.currentUser.uid).update({avatar: this.imageUrl});
         this.navCtrl.push(LicensePage);

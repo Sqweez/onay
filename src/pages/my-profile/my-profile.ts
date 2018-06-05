@@ -21,6 +21,7 @@ export class MyProfilePage {
   image: any;
   imageUrl: any;
   id: any;
+  hadProjects = true;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,6 +38,11 @@ export class MyProfilePage {
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )
     );
+    this.projects.subscribe(data => {
+      if(data.length === 0){
+        this.hadProjects = false;
+      }
+    })
   }
 
   ionViewDidLoad() {

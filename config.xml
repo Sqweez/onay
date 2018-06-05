@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="kz.onay.inhvest" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="kz.onay.inhvest" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Onay</name>
     <description>Onay Invest</description>
     <author email="sasha.katerinin@gmail.com" href="#">Alexander Katerinin</author>
@@ -99,6 +99,6 @@
     <preference name="SplashScreenDelay" value="3000" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <engine name="android" spec="6.4.0" />
     <plugin name="com.telerik.plugins.nativepagetransitions" spec="^0.6.5" />
+    <engine name="android" spec="6.4.0" />
 </widget>

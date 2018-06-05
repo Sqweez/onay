@@ -137,6 +137,7 @@ export class ProjectInfoPage {
       this.isAuth = false;
     }
     this.project = this.navParams.get('item');
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.navParams.get('videourl'));
     this.afDatabase.object('likes/projects/' + this.project.key + '/' + this.auth.auth.currentUser.uid)
       .valueChanges()
       .subscribe(data => {
@@ -144,9 +145,9 @@ export class ProjectInfoPage {
           $('#like').removeClass('far').addClass('fas').removeClass('likeButton').addClass('dislikeButton');
           this.didLiked = true;
         }
-      })
+      });
     this.startCountViews(this.isAuth);
-    if (this.project.videoUrl == undefined) {
+    if (this.project.videoUrl == null) {
       this.loading.dismiss();
     };
     this.profile = this.afDatabase.object<Profile>('profile/' + this.project.uid).valueChanges();
@@ -157,7 +158,7 @@ export class ProjectInfoPage {
         this.phone = this.data.phone;
         this.email = this.data.email;
       });
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
+   /* this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);*/
     this.image = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.imageUrl);
     this.loading = this.loadingCtrl.create({
       content: 'Пожалуйста подождите'

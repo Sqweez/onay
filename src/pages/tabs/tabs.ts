@@ -9,12 +9,12 @@ import {ContactsPage} from "../contacts/contacts";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AlertProvider} from "../../providers/alert/alert";
 import {NativeTransitionOptions, NativePageTransitions} from "@ionic-native/native-page-transitions";
+import {StatusBar} from "@ionic-native/status-bar";
 
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-
   tab1Root = ProjectsPage;
   tab2Root = EducationPage;
   tab3Root = StoreProjectPage;
@@ -26,8 +26,9 @@ export class TabsPage {
   constructor(
     private auth: AngularFireAuth,
     public alert: AlertProvider,
-    private transition: NativePageTransitions) {
-
+    private transition: NativePageTransitions,
+    public statusBar: StatusBar) {
+    this.statusBar.backgroundColorByHexString('#654EA3');
     if(this.auth.auth.currentUser == null){
       this.isAuth = false;
       this.alert.showAlert('Внимание!', 'Вы вошли как гость, поэтому ваш функционал ограничен! Вы не можете добавлять свои проекты, а также не можете смотреть информацию об авторах проектов!');
@@ -49,7 +50,7 @@ export class TabsPage {
   makeTransition(e){
     let options: NativeTransitionOptions = {
       direction:this.getAnimationDirection(e.index),
-      duration: 250,
+      duration: 125,
       slowdownfactor: -1,
       slidePixels: 0,
       iosdelay: 20,

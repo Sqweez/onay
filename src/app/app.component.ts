@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import {Nav, Platform, ToastController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { WelcomePage } from "../pages/welcome/welcome";
 import {Keyboard} from "@ionic-native/keyboard";
 import {AngularFireAuth} from "angularfire2/auth";
@@ -16,9 +15,9 @@ import { timer } from "rxjs/observable/timer";
 import {AboutUsPage} from "../pages/about-us/about-us";
 import { Network } from '@ionic-native/network'
 import {MyProfilePage} from "../pages/my-profile/my-profile";
-import {HomePage} from "../pages/home/home";
 import {RegisterPage} from "../pages/register/register";
 import {Observable} from "rxjs/Observable";
+import {DomSanitizer} from "@angular/platform-browser";
 @Component({
   templateUrl: 'app.html'
 })
@@ -34,7 +33,8 @@ export class MyApp {
   unregPages: Array<{title: string, component: any, icon: string}>;
   pages: Array<{title: string, component: any, icon: string}>;
   tabs: Array<{component: any, icon: string}>;
-  profileDat = {} as any
+  profileDat = {} as any;
+  avatar: any;
   constructor(
     private afDatabase: AngularFireDatabase,
     private afAuth: AngularFireAuth,
@@ -45,7 +45,7 @@ export class MyApp {
     private authProvider: Autentification,
     public headerColor: HeaderColor,
     public toastCtrl: ToastController,
-    public ntwrk: Network) {
+    public sanitizer: DomSanitizer) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -63,6 +63,7 @@ export class MyApp {
   }
   initializeApp() {
     this.platform.ready().then(() => {
+      this.statusBar.hide();
       this.afAuth.authState.subscribe(data => {
         if(data){
           console.log('1');
@@ -70,17 +71,20 @@ export class MyApp {
             .valueChanges()
             .subscribe(data =>{
               this.profileDat = data;
+              this.avatar = this.profileDat.avatar;
             if(this.profileDat.didLicenseAccepted){
               this.afAuth.authState.subscribe(data => {
                 console.log('Авторизован');
                 this.profileData = this.afDatabase.object<Profile>(`profile/${data.uid}`).valueChanges();
               });
-              this.headerColor.tint('#3f71ae');
+              this.headerColor.tint('#654EA3');
+              this.statusBar.show();
               this.rootPage = TabsPage;
               console.log('2');
             }
             else if(this.profileDat.didLicenseAccepted == false){
-              this.headerColor.tint('#3f71ae');
+              this.headerColor.tint('#654EA3');
+              this.statusBar.show();
               this.rootPage = LicensePage;
               console.log('3');
             }
@@ -88,16 +92,23 @@ export class MyApp {
         }
         else {
           console.log('5');
-          this.statusBar.hide();
+          this.statusBar.show();
+          this.statusBar.overlaysWebView(false);
+          this.statusBar.backgroundColorByHexString('#333');
           this.rootPage = WelcomePage;
         }
       });
-      this.headerColor.tint('#3f71ae');
+      this.headerColor.tint('#654EA3');
       this.keyboard.disableScroll(true);
       timer(3000).subscribe(() => {
+        this.statusBar.show();
+        this.statusBar.overlaysWebView(false);
         this.statusBar.backgroundColorByHexString('#654EA3');
         this.showSplash = false});
     });
+  }
+  showAvatar(img){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(img);
   }
   showProfile(){
      this.afAuth.authState.subscribe(data => {

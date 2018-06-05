@@ -62,7 +62,7 @@ export class ProfilePage {
       this.profile.avatar = 0;
       this.profile.phone = this.profile.phone.replace("87","+77");
       this.afDatabase.object(`profile/${auth.uid}`).set(this.profile)
-        .then(() => this.navCtrl.push(LicensePage));
+        .then(() => this.navCtrl.push(UploadPhotoPage));
     })
   }
 

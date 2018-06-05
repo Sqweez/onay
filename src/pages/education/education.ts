@@ -39,7 +39,7 @@ export class EducationPage {
       fixedPixelsBottom: 48
     };
     this.nativePageTransitions.slide(options);
-    this.navCtrl.push(EducationInfoPage, {item: item});
+    this.navCtrl.push(EducationInfoPage, {item: item, videourl: item.url});
   }
   showImage(image){
     return this.sanitizer.bypassSecurityTrustResourceUrl(image);

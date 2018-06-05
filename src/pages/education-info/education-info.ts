@@ -44,6 +44,7 @@ export class EducationInfoPage {
       this.isAuth = false;
     }
     this.education = this.navParams.get('item');
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.navParams.get('videourl'));
     this.startCountViews(this.isAuth);
     this.db.object('likes/education/' + this.education.key + '/' + this.auth.auth.currentUser.uid)
       .valueChanges()
@@ -52,8 +53,7 @@ export class EducationInfoPage {
           $('#like').removeClass('far').addClass('fas').removeClass('likeButton').addClass('dislikeButton');
           this.didLiked = true;
         }
-      })
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.education.url);
+      });
     this.loading = this.loadingCtrl.create({
       content: 'Пожалуйста подождите'
     });

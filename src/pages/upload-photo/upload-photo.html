@@ -1,12 +1,11 @@
 <ion-content class="registerPage profilePage" no-bounce>
   <div class="logo">Onay Invest</div>
   <div class="prPageInfo">Загрузите свою фотографию</div>
-  <div class="regForm">
+  <div class="regForm" id="add">
     <div *ngIf="image == null">
       <button ion-button color="dark" block (click)="presentActionSheet()">Добавить фотографию</button>
     </div>
     <div  *ngIf="image != null"><img class="uploadedImage" [src]="image" alt="Пусто!"></div>
-    <input type="file" (change)="onFileUpload($event)">
     <button *ngIf="image != null" ion-button color="dark" block (click)="presentActionSheet()">Добавить другую фотографию</button>
     <div padding>
       <button *ngIf="image != null" ion-button block color="primary" (click)="uploadPhoto()">Загрузить фото</button>
@@ -14,5 +13,11 @@
     <button color="light" ion-button block clear (click)="doNotUpload()">
       Я загружу фото позже
     </button>
+  </div>
+  <div class="sk-folding-cube" id="loading" style="display: none;">
+    <div class="sk-cube1 sk-cube"></div>
+    <div class="sk-cube2 sk-cube"></div>
+    <div class="sk-cube4 sk-cube"></div>
+    <div class="sk-cube3 sk-cube"></div>
   </div>
 </ion-content>

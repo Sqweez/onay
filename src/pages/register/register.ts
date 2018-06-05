@@ -22,7 +22,6 @@ export class RegisterPage {
   passwordConfirmation: string = "";
   constructor(private statusBar: StatusBar, private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public toastControlle: ToastController, public menuCtrl: MenuController) {
     this.menuCtrl.enable(false, 'mainMenu');
-    this.statusBar.hide();
   }
 
   async register(user: User){
