@@ -23,10 +23,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-
-  //For fast tests
-  /*email: string = "sasha.katerinin@gmail.com";
-  password: string = "123456";*/
   showSplash = true;
   rootPage: any;
   profileData: Observable<Profile>;
@@ -66,12 +62,10 @@ export class MyApp {
       this.statusBar.hide();
       this.afAuth.authState.subscribe(data => {
         if(data){
-          console.log('1');
           this.afDatabase.object('profile/' + data.uid)
             .valueChanges()
             .subscribe(data =>{
-              this.profileDat = data;
-              this.avatar = this.profileDat.avatar;
+              this.getData(data);
             if(this.profileDat.didLicenseAccepted){
               this.afAuth.authState.subscribe(data => {
                 console.log('Авторизован');
@@ -80,18 +74,15 @@ export class MyApp {
               this.headerColor.tint('#654EA3');
               this.statusBar.show();
               this.rootPage = TabsPage;
-              console.log('2');
             }
             else if(this.profileDat.didLicenseAccepted == false){
               this.headerColor.tint('#654EA3');
               this.statusBar.show();
               this.rootPage = LicensePage;
-              console.log('3');
             }
           });
         }
         else {
-          console.log('5');
           this.statusBar.show();
           this.statusBar.overlaysWebView(false);
           this.statusBar.backgroundColorByHexString('#333');
@@ -119,6 +110,10 @@ export class MyApp {
 
   openTab(page){
     this.nav.setRoot(page.component);
+  }
+  getData(data){
+    this.profileDat = data;
+    this.avatar = this.profileDat.avatar;
   }
   openPage(page) {
     // Reset the content nav to have just this page

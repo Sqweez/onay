@@ -58,7 +58,7 @@ export class UploadPhotoPage {
       title: 'Выберите тип загрузки',
       buttons: [
         {
-          text: 'Из галереи' + this.auth.auth.currentUser.uid,
+          text: 'Из галереи',
           handler: () => {
             this.takePicture(0);
           }

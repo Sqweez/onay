@@ -5,6 +5,7 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {WelcomePage} from "../welcome/welcome";
 import {TabsPage} from "../tabs/tabs";
 import {Profile} from "../../models/profile";
+import {SplashScreen} from "@ionic-native/splash-screen";
 
 /**
  * Generated class for the LicensePage page.
@@ -27,6 +28,7 @@ export class LicensePage {
     public navParams: NavParams,
     private afDatabase: AngularFireDatabase,
     private afAuth: AngularFireAuth,
+    public splashScreen: SplashScreen
   ) {
     this.afDatabase.object('license').valueChanges().subscribe(data => {
       this.license = data;
@@ -47,7 +49,8 @@ export class LicensePage {
     this.afAuth.authState.subscribe(data => {
       this.profile.didLicenseAccepted = true;
       this.afDatabase.object('profile/' + data.uid ).update(this.profile);
-      this.navCtrl.setRoot(TabsPage);
+      this.splashScreen.show();
+      window.location.reload();
     })
   }
   decline(){

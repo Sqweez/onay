@@ -10,6 +10,8 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AlertProvider} from "../../providers/alert/alert";
 import {NativeTransitionOptions, NativePageTransitions} from "@ionic-native/native-page-transitions";
 import {StatusBar} from "@ionic-native/status-bar";
+import {AngularFireDatabase} from "angularfire2/database";
+import {MyApp} from "../../app/app.component";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -27,7 +29,8 @@ export class TabsPage {
     private auth: AngularFireAuth,
     public alert: AlertProvider,
     private transition: NativePageTransitions,
-    public statusBar: StatusBar) {
+    public statusBar: StatusBar,
+    private db: AngularFireDatabase) {
     this.statusBar.backgroundColorByHexString('#654EA3');
     if(this.auth.auth.currentUser == null){
       this.isAuth = false;
