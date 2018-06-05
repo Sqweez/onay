@@ -24,18 +24,15 @@ export class RegisterPage {
     this.menuCtrl.enable(false, 'mainMenu');
   }
 
-  async register(user: User){
+  register(user: User){
     if(this.user.password == this.passwordConfirmation){
-      /*let regExp = /@mail.ru|@gmail.com|@rambler.ru|@aifc.edu.gov|@mail.kz|@aol.com|@yandex.kz|@yandex.ru/;
-      let match = this.user.email.match(regExp);
-      console.log(match);
-      if(match == null){
-        this.showToast('E-mail не соответстует существующему!');
-      }*/
-     await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-      this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
-      this.showToast('Вы успешно зарегистрированы!');
-      this.navCtrl.setRoot(ProfilePage);
+      this.user.email = this.user.email.trim();
+     this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(() => {
+       this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(() => {
+         this.showToast('Вы успешно зарегистрированы!');
+         this.navCtrl.setRoot(ProfilePage);
+       })
+     });
     }
     else{
       this.showToast('Пароли не совпадают!');

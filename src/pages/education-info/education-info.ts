@@ -60,16 +60,15 @@ export class EducationInfoPage {
     this.loading.present();
   }
   startCountViews(auth) {
-    this.db.object('views/education/'+ this.education.key + '/' + this.auth.auth.currentUser.uid).valueChanges().subscribe(data => {
-      console.log(data);
-      if (!data) {
-        if (auth == true) {
-          const count = this.education.viewCount + 1;
-          this.db.object('education/' + this.education.key).update({viewCount: count});
-          this.db.object('views/education/'+ this.education.key + '/' + this.auth.auth.currentUser.uid).set({view: 1});
+    if(auth == true){
+      this.db.object('views/education/'+ this.education.key + '/' + this.auth.auth.currentUser.uid).valueChanges().subscribe(data => {
+        if (!data) {
+            const count = this.education.viewCount + 1;
+            this.db.object('education/' + this.education.key).update({viewCount: count});
+            this.db.object('views/education/'+ this.education.key + '/' + this.auth.auth.currentUser.uid).set({view: 1});
         }
-      }
-    })
+      })
+    }
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad EducationInfoPage');

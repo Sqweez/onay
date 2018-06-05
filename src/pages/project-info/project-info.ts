@@ -136,20 +136,19 @@ export class ProjectInfoPage {
     if (this.auth.auth.currentUser == null) {
       this.isAuth = false;
     }
-    this.project = this.navParams.get('item');
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.navParams.get('videourl'));
-    this.afDatabase.object('likes/projects/' + this.project.key + '/' + this.auth.auth.currentUser.uid)
-      .valueChanges()
-      .subscribe(data => {
-        if(data){
-          $('#like').removeClass('far').addClass('fas').removeClass('likeButton').addClass('dislikeButton');
-          this.didLiked = true;
-        }
-      });
     this.startCountViews(this.isAuth);
-    if (this.project.videoUrl == null) {
-      this.loading.dismiss();
-    };
+    this.project = this.navParams.get('item');
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
+    if(this.isAuth == true){
+      this.afDatabase.object('likes/projects/' + this.project.key + '/' + this.auth.auth.currentUser.uid)
+        .valueChanges()
+        .subscribe(data => {
+          if(data){
+            $('#like').removeClass('far').addClass('fas').removeClass('likeButton').addClass('dislikeButton');
+            this.didLiked = true;
+          }
+        });
+    }
     this.profile = this.afDatabase.object<Profile>('profile/' + this.project.uid).valueChanges();
     this.afDatabase.object('profile/' + this.project.uid)
       .valueChanges()
@@ -158,7 +157,6 @@ export class ProjectInfoPage {
         this.phone = this.data.phone;
         this.email = this.data.email;
       });
-   /* this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);*/
     this.image = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.imageUrl);
     this.loading = this.loadingCtrl.create({
       content: 'Пожалуйста подождите'
@@ -167,15 +165,15 @@ export class ProjectInfoPage {
   }
 
   startCountViews(auth) {
-    this.afDatabase.object('views/projects/' + this.project.key + '/'+ this.auth.auth.currentUser.uid).valueChanges().subscribe(data => {
-      if (!data) {
-        if (auth == true) {
+    if(auth == true){
+      this.afDatabase.object('views/projects/' + this.project.key + '/'+ this.auth.auth.currentUser.uid).valueChanges().subscribe(data => {
+        if (!data) {
           const count = this.project.viewCount + 1;
           this.afDatabase.object('projects/' + this.project.key).update({viewCount: count});
           this.afDatabase.object('views/' + '/projects/'+ this.project.key + '/' + this.auth.auth.currentUser.uid).set({view: 1});
         }
-      }
-    })
+      })
+    }
   }
 
   like(id, didLiked) {

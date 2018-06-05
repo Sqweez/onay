@@ -45,7 +45,6 @@ export class ProjectsPage {
 
   ionViewWillEnter(){
     this.splashScreen.hide();
-
   }
   openProject(item){
     let options: NativeTransitionOptions = {

@@ -18,6 +18,7 @@ import {MyApp} from "../../app/app.component";
 })
 export class TabsPage {
   tab1Root = ProjectsPage;
+  dataTime: any = '';
   tab2Root = EducationPage;
   tab3Root = StoreProjectPage;
   tab4Root = HomePage;
@@ -31,6 +32,10 @@ export class TabsPage {
     private transition: NativePageTransitions,
     public statusBar: StatusBar,
     private db: AngularFireDatabase) {
+    this.dataTime = new Date().getHours();
+    if(this.dataTime > 20 && this.dataTime < 23){
+      this.alert.showAlert('Внимание!','На территории Казахстана в данное время могут некорректно работать YouTube ролики');
+    }
     this.statusBar.backgroundColorByHexString('#654EA3');
     if(this.auth.auth.currentUser == null){
       this.isAuth = false;

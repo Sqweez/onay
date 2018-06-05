@@ -49,8 +49,6 @@ export class LicensePage {
     this.afAuth.authState.subscribe(data => {
       this.profile.didLicenseAccepted = true;
       this.afDatabase.object('profile/' + data.uid ).update(this.profile);
-      this.splashScreen.show();
-      window.location.reload();
     })
   }
   decline(){

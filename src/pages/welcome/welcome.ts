@@ -48,12 +48,13 @@ export class WelcomePage {
     this.navCtrl.push(RegisterPage);
   }
   async login(user: User){
+    this.user.email = this.user.email.trim();
     this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then(() => {
         this.afAuth.authState.subscribe(data => {
           this.afDatabase.object('profile/' + data.uid).valueChanges().subscribe(data => {
             this.data = data;
-            if (this.data.firstname == null){
+            if (!data){
               this.navCtrl.setRoot(ProfilePage);
             }
             else{
