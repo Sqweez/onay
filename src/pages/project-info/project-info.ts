@@ -16,17 +16,7 @@ import {EmailComposer} from "@ionic-native/email-composer";
 import {AngularFireAuth} from "angularfire2/auth";
 import {Observable} from "rxjs/Observable";
 import * as $ from 'jquery';
-import {map} from "rxjs/operators";
-import {ToastService} from "../../providers/services/toast.service";
 import {ToastProvider} from "../../providers/toast/toast";
-import {WhoLikesPage} from "../who-likes/who-likes";
-
-/**
- * Generated class for the ProjectInfoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-project-info',
@@ -138,7 +128,11 @@ export class ProjectInfoPage {
     }
     this.startCountViews(this.isAuth);
     this.project = this.navParams.get('item');
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
+    if(this.project.videoUrl){
+      this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
+      this.loading.present();
+    }
+    console.log(this.url);
     if(this.isAuth == true){
       this.afDatabase.object('likes/projects/' + this.project.key + '/' + this.auth.auth.currentUser.uid)
         .valueChanges()
@@ -161,7 +155,6 @@ export class ProjectInfoPage {
     this.loading = this.loadingCtrl.create({
       content: 'Пожалуйста подождите'
     });
-    this.loading.present();
   }
 
   startCountViews(auth) {

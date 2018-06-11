@@ -15,6 +15,7 @@ import * as firebase from "firebase";
 import {ToastService} from "../../providers/services/toast.service";
 import {AlertProvider} from "../../providers/alert/alert";
 import * as $ from 'jquery';
+
 /**
  * Generated class for the StoreProjectPage page.
  *
@@ -45,7 +46,7 @@ export class StoreProjectPage {
   }
 
   async createProject() {
-    if(this.project.videoUrl){
+    if (this.project.videoUrl) {
       this.project.videoUrl = 'https://www.youtube.com/embed/' + this.getVideoId(this.project.videoUrl);
     }
     if (this.project.name == null) {
@@ -64,7 +65,8 @@ export class StoreProjectPage {
     if (this.image != null) {
       $('#add').css('display', 'none');
       $('#loading').css('display', 'block').css('margin-top', '50%');
-      await firebase.storage().ref().child(`projects/${this.project.name}_logo.jpg`).putString(this.image, 'data_url').then(data => {
+      await firebase.storage().ref().child(`projects/${this.project.name}_logo.jpg`)
+        .putString(this.image, 'data_url').then(data => {
         this.project.imageUrl = data.downloadURL;
       });
       await this.pushProjectToDatabase();

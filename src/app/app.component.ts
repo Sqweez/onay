@@ -71,14 +71,11 @@ export class MyApp {
             .valueChanges()
             .subscribe(data => {
               if (!data) {
-                console.log('1');
                 this.rootPage = ProfilePage;
               }
               else {
-                console.log('2');
                 this.getData(data);
                 if (this.profileDat.didLicenseAccepted) {
-                  console.log('3');
                   this.afAuth.authState.subscribe(data => {
                     console.log('Авторизован');
                     this.profileData = this.afDatabase.object<Profile>(`profile/${data.uid}`).valueChanges();
@@ -87,8 +84,7 @@ export class MyApp {
                   this.statusBar.show();
                   this.rootPage = TabsPage;
                 }
-                else if (this.profileDat.didLicenseAccepted == false  && this.rootPage !=ProfilePage) {
-                  console.log('4');
+                else if (this.profileDat.didLicenseAccepted == false) {
                   this.headerColor.tint('#654EA3');
                   this.statusBar.show();
                   this.rootPage = LicensePage;
