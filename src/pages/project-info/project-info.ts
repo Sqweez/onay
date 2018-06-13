@@ -17,7 +17,6 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {Observable} from "rxjs/Observable";
 import * as $ from 'jquery';
 import {ToastProvider} from "../../providers/toast/toast";
-
 @Component({
   selector: 'page-project-info',
   templateUrl: 'project-info.html',
@@ -119,20 +118,20 @@ export class ProjectInfoPage {
   }
 
   videoLoaded() {
-    this.loading.dismiss();
+    $('#loading').css('display', 'none');
+    $('#content').css('display', 'block');
   }
 
   ionViewWillEnter() {
     if (this.auth.auth.currentUser == null) {
       this.isAuth = false;
     }
-    this.startCountViews(this.isAuth);
     this.project = this.navParams.get('item');
     if(this.project.videoUrl){
-      this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
-      this.loading.present();
+     $('#content').css('display', 'none');
+     $('#loading').css('display', 'block');
+     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.project.videoUrl);
     }
-    console.log(this.url);
     if(this.isAuth == true){
       this.afDatabase.object('likes/projects/' + this.project.key + '/' + this.auth.auth.currentUser.uid)
         .valueChanges()
@@ -142,6 +141,7 @@ export class ProjectInfoPage {
             this.didLiked = true;
           }
         });
+      this.startCountViews(this.isAuth);
     }
     this.profile = this.afDatabase.object<Profile>('profile/' + this.project.uid).valueChanges();
     this.afDatabase.object('profile/' + this.project.uid)

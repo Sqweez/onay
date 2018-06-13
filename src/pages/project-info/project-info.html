@@ -7,53 +7,62 @@
 
 </ion-header>
 <ion-content padding>
-  <div>
-    <h1 style="text-align: center">Проект: "{{project.name}}"</h1>
-    <iframe width="100%" *ngIf="project.videoUrl" [src]="url" (load)="videoLoaded()" frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen></iframe>
-    <div *ngIf="!project.videoUrl" style="text-align: center">
-      <img [src]="showImage(project.imageUrl)" alt="" style="height: 200px; text-align: center;">
-    </div>
-    <p>Описание проекта "{{project.name}}":</p>
-    <p style="opacity: 0.6">{{project.description}}</p>
-    <p>Стадия проекта: </p>
-    <p style="opacity: 0.6">{{project.stage}}</p>
-    <div *ngIf="project.freelance">
-      <p>Требуемые услуги: </p>
-      <p style="opacity: 0.6">{{project.freelance}}</p>
-    </div>
-    <div *ngIf="project.money">
-      <p>Сумма инвестиций: </p>
-      <p style="opacity: 0.6">{{project.money}}</p>
-    </div>
-  </div>
-  <div *ngIf="isAuth">
-    <div style="height: 24%">
-          <ion-chip>
-            <ion-icon ios="ios-person" md="md-person"></ion-icon>
-            <ion-label>Автор проекта: {{(profile | async)?.firstname}} {{(profile | async)?.lastname}}</ion-label>
-          </ion-chip>
-          <ion-chip>
-            <ion-icon ios="ios-home" md="md-home"></ion-icon>
-            <ion-label>Город: {{(profile | async)?.region}}</ion-label>
-          </ion-chip><br>
-          <ion-chip>
-            <ion-icon name="eye"></ion-icon>
-            <ion-label>Просмотры: {{project.viewCount}}</ion-label>
-          </ion-chip>
-      <div style="text-align: center; margin-top: 3%">
-        <button color="secondary" ion-button icon-only (click)="phoneTo(phone)">
-          <ion-icon ios="ios-call" md="md-call"></ion-icon>
-        </button>
-        <button color="danger" ion-button icon-only (click)="mailTo(phone, email)">
-          <ion-icon ios="ios-mail" md="md-mail"></ion-icon>
-        </button>
-        <button color="tabs" style="padding: 6px" ion-button clear (click)="like(project, didLiked)">
-          <i class="far fa-heart likeButton" id="like"></i>
-        </button>
-        <ion-badge class="countsOfLikes" (click)="showModal(project.likeCount)">{{project.likeCount}}</ion-badge>
+  <div id="content">
+    <div>
+      <h1 style="text-align: center">Проект: "{{project.name}}"</h1>
+      <iframe width="100%" *ngIf="project.videoUrl" [src]="url" (load)="videoLoaded()" frameborder="0"
+              allow="autoplay; encrypted-media"
+              allowfullscreen></iframe>
+      <div *ngIf="!project.videoUrl" style="text-align: center">
+        <img [src]="showImage(project.imageUrl)" alt="" style="height: 200px; text-align: center;">
+      </div>
+      <p>Описание проекта "{{project.name}}":</p>
+      <p style="opacity: 0.6">{{project.description}}</p>
+      <p>Стадия проекта: </p>
+      <p style="opacity: 0.6">{{project.stage}}</p>
+      <div *ngIf="project.freelance">
+        <p>Требуемые услуги: </p>
+        <p style="opacity: 0.6">{{project.freelance}}</p>
+      </div>
+      <div *ngIf="project.money">
+        <p>Сумма инвестиций: </p>
+        <p style="opacity: 0.6">{{project.money}}</p>
       </div>
     </div>
+    <div *ngIf="isAuth">
+      <div style="height: 24%">
+        <ion-chip>
+          <ion-icon ios="ios-person" md="md-person"></ion-icon>
+          <ion-label>Автор проекта: {{(profile | async)?.firstname}} {{(profile | async)?.lastname}}</ion-label>
+        </ion-chip>
+        <ion-chip>
+          <ion-icon ios="ios-home" md="md-home"></ion-icon>
+          <ion-label>Город: {{(profile | async)?.region}}</ion-label>
+        </ion-chip>
+        <br>
+        <ion-chip>
+          <ion-icon name="eye"></ion-icon>
+          <ion-label>Просмотры: {{project.viewCount}}</ion-label>
+        </ion-chip>
+        <div style="text-align: center; margin-top: 3%">
+          <button color="secondary" ion-button icon-only (click)="phoneTo(phone)">
+            <ion-icon ios="ios-call" md="md-call"></ion-icon>
+          </button>
+          <button color="danger" ion-button icon-only (click)="mailTo(phone, email)">
+            <ion-icon ios="ios-mail" md="md-mail"></ion-icon>
+          </button>
+          <button color="tabs" style="padding: 6px" ion-button clear (click)="like(project, didLiked)">
+            <i class="far fa-heart likeButton" id="like"></i>
+          </button>
+          <ion-badge class="countsOfLikes" (click)="showModal(project.likeCount)">{{project.likeCount}}</ion-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sk-folding-cube" id="loading" style="display: none;">
+    <div class="sk-cube1 sk-cube"></div>
+    <div class="sk-cube2 sk-cube"></div>
+    <div class="sk-cube4 sk-cube"></div>
+    <div class="sk-cube3 sk-cube"></div>
   </div>
 </ion-content>
